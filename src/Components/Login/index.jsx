@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Input from '../Input'
 import Button from '../Button'
+import { Link } from 'react-router'
 
 const Login = () => {
     const users = [{
@@ -47,23 +48,20 @@ const Login = () => {
 
     return (
         <>
-            <div className='w-screen h-screen bg-[url(../../../src/assets/images/stats-bg.jpg)] bg-cover bg-no-repeat bg-left backdrop-blur-sm flex flex-row items-end justify-end'>
-                <div className='w-[80%] md:w-[36%]  h-[100vh] flex items-center justify-center bg-[rgba(255,255,255,0.52)] backdrop-blur-lg shadow-lg shadow-gray-500'>
-                    <div className='w-[15em] h-full flex flex-col flex-wrap items-start justify-center gap-5 '>
-                        {message}
-                        
-                        <p className='text-[16px] font-[300]'>Sign in to continue. </p>
+            <div className='w-[15em] h-full flex flex-col flex-wrap items-start justify-center gap-5 '>
+                {message}
 
-                        <div className='w-full flex flex-col flex-wrap items-start gap-3'>
-                            {/* <Input type='text' placeHolder='Name' inputID='NAME' inputName='Name' /> */}
-                            <Input type='email' placeHolder='jondoe23@gmailcom' inputName='E-mail' updatedVal={updateEmailValue} />
-                            <Input type='password' placeHolder='Password' inputName='Password' updatedVal={updatePasswordValue} />
-                            <a href="#" className='text-[12px] text-gray-700 hover:underline'>Forget password</a>
-                        </div>
-                        <Button title='Login' btnClass='login' btnFucntiion={validateLogin} />
+                <p className='text-[16px] font-[600]'>Sign in to continue. </p>
 
-                    </div>
+                <div className='w-full flex flex-col flex-wrap items-start gap-3'>
+                    {/* <Input type='text' placeHolder='Name' inputID='NAME' inputName='Name' /> */}
+                    <Input type='email' placeHolder='jondoe23@gmailcom' inputName='E-mail' updatedVal={updateEmailValue} />
+                    <Input type='password' placeHolder='Password' inputName='Password' updatedVal={updatePasswordValue} />
+                    <a href="#" className='text-[12px] text-gray-700 hover:underline'>Forget password</a>
                 </div>
+                <Button title='Login' btnClass='login' btnFucntiion={validateLogin} />
+                <p className='text-[12px] font-[400] text-gray-900'>Don't have an account? <Link to={'/sign-up'} className='underline text-blue-800'>Sign up</Link></p>
+
             </div>
         </>
     )
