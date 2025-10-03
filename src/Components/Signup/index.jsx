@@ -1,11 +1,14 @@
 import React, { use, useState } from 'react'
 import Input, { Radio } from '../Input'
 import Button, { Submit } from '../Button'
-import { db } from '../../firebase'
-import { addDoc, collection, getDocs } from 'firebase/firestore'
+import { auth, db } from '../../firebase'
+import { addDoc, collection, doc, getDocs, setDoc } from 'firebase/firestore'
 import teacherSvg from '../../assets/icons/teacher.svg'
 import adminSvg from '../../assets/icons/admin.svg'
 import studentSvg from '../../assets/icons/student.svg'
+import firebase from 'firebase/compat/app'
+import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { useNavigate } from 'react-router'
 
 
 const SignUp = () => {
@@ -13,8 +16,9 @@ const SignUp = () => {
     const [password, setPassword] = useState('')
     const [name, setName] = useState('')
     const [selectedRole, setSelectedRole] = useState('')
+    const [message, setmessage] = useState('')
 
-
+    const navigate = useNavigate()
 
 
     // const pass = 'admin'
@@ -31,39 +35,37 @@ const SignUp = () => {
         setSelectedRole(e.target.value)
     }
 
-    const handleSubmit = async (e) => {
+    const signupUser = async (email, password) => {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password)
+        console.log(userCredential.user);
+        
+        return userCredential.user;
+    }
+    const saveUserData = async (uid, name, role, password)=> {
+        return await setDoc(doc(db, 'users', uid), {
+            name: name,
+            role: role,
+            password: password,
+            email: auth.currentUser.email
+        })
+    }
+
+    const handleSubmit = async (e, email, password, name, role) => {
         e.preventDefault();
 
-        const user = {
-            name: name,
-            role: selectedRole,
-            password: password,
-            email: emailValue,
-        }
-
-
         try {
-            const usersData = await getDocs(collection(db, 'users'))
-            let emailExists = false
+            const user = await signupUser(email, password);
+            await saveUserData(user.uid, name, role, password)
+            navigate('/')
+            console.log('user saved successfully');
             
-            usersData.forEach((doc) => {
-                const existingUser = doc.data();
-                if (existingUser.email == user.email) {
-                    emailExists = true
-                }
-            })
 
-            if (emailExists) {
-                console.log('user exist with the Email');
-
-            } else {
-                const docRef = addDoc(collection(db, 'users'))
-                console.log('user added with id: ' + docRef.id);
-            }
         } catch (error) {
             console.log(error);
-
+            
         }
+
+        
 
     }
 
@@ -73,7 +75,7 @@ const SignUp = () => {
 
     return (
         <>
-            <form className='w-[15em] h-full flex flex-col flex-wrap items-start justify-center gap-10 ' onSubmit={handleSubmit}>
+            <form className='w-[15em] h-full flex flex-col flex-wrap items-start justify-center gap-10 ' onSubmit={(e)=>handleSubmit(e,emailValue, password, name, selectedRole)}>
 
                 <p className='text-[16px] font-[600]'>Create Account.</p>
 
