@@ -6,6 +6,7 @@ import Login from './Components/Login'
 import { Route, Routes } from 'react-router'
 import LoginPage from './Pages/LoginPage'
 import SignUp from './Components/Signup'
+import StudentPage from './Pages/Student'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -13,8 +14,9 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path='/' element={<LoginPage/>}>
-          <Route index element={<Login/>} />
+        <Route index element={<StudentPage/>}/>
+        <Route  element={<LoginPage/>}>
+          <Route path='/login' element={<Login/>} />
           <Route path='/sign-up' element={<SignUp/>} />
         </Route>
       </Routes>
