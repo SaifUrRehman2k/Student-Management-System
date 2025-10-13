@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Sidebar from "../../components/Sidebar";
-import Header from "../../components/Header";
-import StatsGrid from "../../components/StatsGrid";
+import Sidebar from "../../Components/Sidebar";
+import Header from "../../Components/Header";
+import StatsGrid from "../../Components/StatsGrid";
 import Charts from "../../Amcharts";
 
 const AdminDashboard = () => {
