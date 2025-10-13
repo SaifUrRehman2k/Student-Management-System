@@ -1,6 +1,6 @@
 import { Chart } from '@amcharts/amcharts5'
 import React from 'react'
-import { Link, NavLink, Outlet } from 'react-router'
+import { Link, NavLink, Outlet } from 'react-router-dom'
 import FloatingBarChart from '../../Amcharts/FloatingBarChart'
 import clock from '../../assets/icons/clock.svg'
 import book from '../../assets/icons/book.svg'

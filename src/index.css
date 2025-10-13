@@ -1,2 +1,61 @@
 @import "tailwindcss";
 
+:root {
+    --emerald-500: #19C880;
+    --emerald-600: #15A86D;
+    --emerald-900: #064e3b;
+    --muted-600: #6b7280;
+    --card-shadow: 0 6px 20px rgba(16, 24, 40, 0.06);
+}
+
+body {
+    @apply bg-gray-900 text-gray-100 font-sans;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.shadow-soft {
+    box-shadow: var(--card-shadow);
+}
+
+.hover-glow:hover {
+    box-shadow: 0 8px 30px rgba(25, 200, 128, 0.15);
+    transform: translateY(-3px);
+}
+
+.smooth {
+    transition: all 180ms cubic-bezier(.2, .9, .3, 1);
+}
+
+.sidebar-scroll {
+    scrollbar-width: thin;
+}
+
+.sidebar-scroll::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar-scroll::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+}
+
+.chart-container {
+    width: 100%;
+    height: 100%;
+}
+
+.input-focus:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(25, 200, 128, 0.1);
+    border-color: var(--emerald-500);
+}
+
+.btn-primary {
+    @apply bg-gradient-to-r from-emerald-600 to-emerald-500 text-white font-semibold px-4 py-2 rounded-lg shadow-md transition-transform transform;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 12px 30px rgba(25, 200, 128, 0.25);
+}
