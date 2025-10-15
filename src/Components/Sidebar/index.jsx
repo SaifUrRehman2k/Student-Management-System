@@ -1,15 +1,16 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, NavLink } from "react-router-dom";
-import { logout } from "../../redux/authSlice";
+import { removeUser } from "../../redux/userSlice";
+// import { logout } from "../../redux/userSlice";
 
 const Sidebar = ({ userType = "admin", isOpen = false, setIsOpen = () => { } }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        dispatch(logout());
-        navigate("/login");
+        dispatch(removeUser())
+        navigate("/");
     };
 
     const adminMenu = [
@@ -42,23 +43,23 @@ const Sidebar = ({ userType = "admin", isOpen = false, setIsOpen = () => { } }) 
             )}
 
             <aside
-                className={`fixed lg:static inset-y-0 left-0 z-30 w-64 transform transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+                className={`fixed lg:static inset-y-0 left-0 z-30 w-64 transforms shadow-[2px_0px_8px] shadow-gray-200 transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
                     }`}
             >
-                <div className="h-full bg-gradient-to-b from-gray-900 to-gray-800 text-white shadow-lg flex flex-col">
-                    <div className="flex items-center justify-between px-5 py-5 border-b border-gray-700">
+                <div className="h-full bg-gray-200 text-white shadow-lg flex flex-col">
+                    <div className="flex items-center justify-between px-5 py-5 s">
                         <div className="flex items-center space-x-3">
                             <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-sm">
                                 <span className="text-gray-900 font-bold">🎓</span>
                             </div>
                             <div>
-                                <div className="font-semibold text-white">Education Portal</div>
-                                <div className="text-xs text-gray-300"></div>
+                                <div className="font-semibold text-gray-800">Education Portal</div>
+                                {/* <div className="text-xs text-gray-300"></div> */}
                             </div>
                         </div>
 
                         <button
-                            className="lg:hidden text-white hover:text-emerald-300 smooth"
+                            className="lg:hidden text-gray-800 hover:text-emerald-300 smooth"
                             onClick={() => setIsOpen(false)}
                             aria-label="close sidebar"
                         >
@@ -75,8 +76,8 @@ const Sidebar = ({ userType = "admin", isOpen = false, setIsOpen = () => { } }) 
                                 onClick={() => setIsOpen(false)}
                                 className={({ isActive }) =>
                                     `flex items-center gap-3 px-3 py-2 rounded-md mb-1 smooth ${isActive
-                                        ? "bg-emerald-100 text-emerald-900 font-semibold shadow-sm"
-                                        : "text-gray-200 hover:bg-emerald-600/20 hover:text-white"
+                                        ? "bg-gray-300 text-emerald-900 font-semibold shadow-sm"
+                                        : "text-gray-800 hover:bg-emerald-600/20 hover:text-gray-700"
                                     }`
                                 }
                             >
@@ -89,7 +90,7 @@ const Sidebar = ({ userType = "admin", isOpen = false, setIsOpen = () => { } }) 
                     <div className="px-4 py-4 border-t border-gray-700">
                         <button
                             onClick={handleLogout}
-                            className="w-full flex items-center gap-3 justify-center px-3 py-2 rounded-md text-white bg-emerald-500 hover:bg-emerald-600 smooth"
+                            className="w-full flex items-center gap-3 justify-center px-3 py-2 rounded-md text-gray-200 bg-blue-700 hover:bg-blue-500 smooth"
                         >
                             <span>🚪</span>
                             <span>Logout</span>

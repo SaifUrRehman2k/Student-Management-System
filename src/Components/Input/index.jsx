@@ -10,6 +10,22 @@ const Input = (props) => {
     </>
   )
 }
+export const DoubleInput = (props) => {
+  return (
+    <>
+      <div className='flex flex-row items-center justify-between gap-2 w-full'>
+        <div className='flex flex-col flex-wrap items-start w-[50%] self-center'>
+          <label htmlFor={props.inputName1} className='text-[12px] w-full  text-gray-700 font-[300] '>{props.inputName1}</label>
+          <input type={props.inputType} className='w-full shadow-gray-400 shadow-sm  bg-gray-300 rounded-[0.2em] px-2 py-1 outline-gray-400' placeholder={props.placeHolder1} id={props.inputName} onChange={props.updatedFirstName} required />
+        </div>
+        <div className='flex flex-col flex-wrap items-start w-[50%] self-center'>
+          <label htmlFor={props.inputName2} className='text-[12px] w-full  text-gray-700 font-[300] '>{props.inputName2}</label>
+          <input type={props.inputType} className='w-full shadow-gray-400 shadow-sm  bg-gray-300 rounded-[0.2em] px-2 py-1 outline-gray-400' placeholder={props.placeHolder2} id={props.inputName} onChange={props.updatedLastName} required />
+        </div>
+      </div>
+    </>
+  )
+}
 
 export default Input
 
@@ -21,10 +37,10 @@ export const Radio = (props) => {
 
   return (
     <>
-      <div 
-        className={`flex flex-row flex-wrap items-baseline gap-1 w-[30%] h-[4em]  rounded-[0.7em] box-border p-2 shadow-gray-400 justify-between hover:cursor-pointer  ${props.radioValue === props.selectedVal ? 'bg-gray-600 shadow-lg text-gray-200': 'bg-gray-300 shadow-md text-gray-950'} `}
+      <div
+        className={`flex flex-row flex-wrap items-baseline gap-1 w-[30%] h-[4em]  rounded-[0.7em] box-border p-2 shadow-gray-400 justify-between hover:cursor-pointer  ${props.radioValue === props.selectedVal ? 'bg-gray-600 shadow-lg text-gray-200' : 'bg-gray-300 shadow-md text-gray-950'} `}
         onClick={handleClick}>
-        <input 
+        <input
           type='radio'
           checked={props.selectedVal == props.radioValue}
           value={props.radioValue}
@@ -36,9 +52,9 @@ export const Radio = (props) => {
         <img src={props.icon} className='w-[18px]' />
 
         <label
-          htmlFor={props.inputTitle} 
+          htmlFor={props.inputTitle}
           className='text-[16px]/5 w-full font-[400] ' >
-            {props.inputTitle}
+          {props.inputTitle}
         </label>
 
       </div>

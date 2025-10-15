@@ -21,7 +21,7 @@ export const Card1x2 = ({ children, title, titleInfo, classFromParent }) => {
         <b className='text-[16px] font-[500] text-gray-800 dark:text-gray-200'>{title}</b>
         <small className='text-[12px] font-[400] text-gray-600 dark:text-gray-400'>{titleInfo}</small>
       </div>
-      <div className='w-full h-[90%]'>
+      <div className='w-full h-[90%] flex flex-col flex-wrap gap-4'>
         {children}
       </div>
     </div>
@@ -46,7 +46,7 @@ export const Card2x1 = ({ children, title, titleInfo, classFromParent }) => {
 export const MiniCard = ({children, classFromParent }) => {
   return (
 
-    <div className={`flex flex-row items-center justify-start gap-6 h-[5em] px-2 py-1 inset-shadow-[1px_2px_3px] inset-shadow-gray-300 dark:inset-shadow-gray-700 rounded-[0.8em] ${classFromParent}`}>
+    <div className={`flex flex-row items-center gap-6 h-[5em]  dark:bg-slate-900 inset-shadow-[1px_2px_8px] inset-shadow-gray-400 dark:inset-shadow-gray-700 rounded-[0.8em] ${classFromParent}`}>
       {children}
     </div>
 

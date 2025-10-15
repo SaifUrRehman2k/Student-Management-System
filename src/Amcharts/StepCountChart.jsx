@@ -6,9 +6,11 @@ import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
 const StepCountChart = () => {
 
     const chartRef = useRef(null)
+    const rootRef = useRef(null)
 
     useLayoutEffect(() => {
         let root = am5.Root.new(chartRef.current);
+        rootRef.current = root;
 
         // Set themes
         // https://www.amcharts.com/docs/v5/concepts/themes/
@@ -139,6 +141,10 @@ const StepCountChart = () => {
         chart.appear(1000, 100);
         series0.appear();
         series1.appear();
+
+        return () => {
+            root.dispose();
+        }
     }, [])
 
 
