@@ -36,7 +36,7 @@ const AdminDashboard = () => {
                         </section>
                     </div>
 
-                    <div className="bg-gray-100 rounded-lg shadow-soft p-5 mt-6 h-[30em] overflow-x-hidden">
+                    {/* <div className="bg-gray-100 rounded-lg shadow-soft p-5 mt-6 h-[30em] overflow-x-hidden">
                         <div className="w-full h-[90%] flex flex-col flex-wrap gap-5">
                             <div className="w-full h-10 border">
                                 <h3 className="text-lg font-semibold text-gray-800 mb-4">Users</h3>
@@ -59,7 +59,7 @@ const AdminDashboard = () => {
                             </div>
 
                         </div>
-                    </div>
+                    </div> */}
 
                     <div className="bg-gray-100 rounded-lg shadow-soft p-5 mt-6">
                         <h3 className="text-lg font-semibold text-gray-800 mb-4">Recent Activity</h3>
