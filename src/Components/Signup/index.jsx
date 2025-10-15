@@ -66,36 +66,45 @@ const SignUp = () => {
     }
 
     const saveUserData = async (uid, firstname, lastname, role, password) => {
-        if (role == 'admin') {
-            return await setDoc(doc(db, role, uid), {
-                first_name: firstname,
-                last_name: lastname,
-                role: role,
-                password: password,
-                email: auth.currentUser.email,
-                uid: uid
-            })
-        } else if (role == 'student') {
-            return await setDoc(doc(db, role, uid), {
-                first_name: firstname,
-                last_name: lastname,
-                password: password,
-                role: role,
-                email: auth.currentUser.email,
-                analytics: studentAnalytics,
-                uid: uid
-            })
-        } else {
-            return await setDoc(doc(db, role, uid), {
-                first_name: firstname,
-                last_name: lastname,
-                password: password,
-                role: role,
-                email: auth.currentUser.email,
-                uid: uid
+        // if (role == 'admin') {
+        //     return await setDoc(doc(db, role, uid), {
+        //         first_name: firstname,
+        //         last_name: lastname,
+        //         role: role,
+        //         password: password,
+        //         email: auth.currentUser.email,
+        //         uid: uid
+        //     })
+        // } else if (role == 'student') {
+        //     return await setDoc(doc(db, role, uid), {
+        //         first_name: firstname,
+        //         last_name: lastname,
+        //         password: password,
+        //         role: role,
+        //         email: auth.currentUser.email,
+        //         analytics: studentAnalytics,
+        //         uid: uid
+        //     })
+        // } else {
+        //     return await setDoc(doc(db, role, uid), {
+        //         first_name: firstname,
+        //         last_name: lastname,
+        //         password: password,
+        //         role: role,
+        //         email: auth.currentUser.email,
+        //         uid: uid
 
-            })
-        }
+        //     })
+        // }
+
+        return await setDoc(doc(db, 'users', uid), {
+            first_name: firstname,
+            last_name: lastname,
+            role: role,
+            password: password,
+            email: auth.currentUser.email,
+            uid: uid
+        })
 
     }
 
