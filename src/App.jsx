@@ -1,80 +1,100 @@
-import React from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-
+import React, { useEffect } from "react";
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import AdminDashboard from "./Pages/AdminDashboard";
 import TeacherDashboard from "./Pages/TeacherDashboard";
-
 import StudentPage from "./Pages/Student";
 import Dashboard from "./Pages/Student/Dashboard";
 import Analyctics from "./Pages/Student/Analyctics";
-import Class from "./Pages/Student/Class";
 import Events from "./Pages/Student/Events";
 import LoginPage from "./Pages/LoginPage";
 import SignUp from "./Components/Signup";
+import LoginForm from "./Components/Login";
+import { removeToast } from "./redux/toastSlice";
+import Toast from "./Components/Toast";
+import Details from "./Pages/Student/Details";
 
-const ProtectedRoute = ({ children, role }) => {
-  const { isAuthenticated, userType } = useSelector((state) => state.auth);
+// const ProtectedRoute = ({ children, role }) => {
+//   const { isAuthenticated, userType } = useSelector((state) => state.auth);
 
-  if (!isAuthenticated) return <Navigate to="/login" replace />;
-  if (role && userType !== role) return <Navigate to={`/${userType}`} replace />;
+//   if (!isAuthenticated) return <Navigate to="/login" replace />;
+//   if (role && userType !== role) return <Navigate to={`/${userType}`} replace />;
 
-  return children;
-};
+//   return children;
+// };
+
+
 
 export default function App() {
-  const { isAuthenticated, userType } = useSelector((state) => state.auth);
+  // const { isAuthenticated, userType } = useSelector((state) => state.auth);
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const toast = useSelector(state => state.toast.value)
 
+  useEffect(() => {
+    if (toast) {
+      const timer = setTimeout(() => {
+        dispatch(removeToast());
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [toast]);
+
+  useEffect(() => {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'))
+    if (currentUser) {
+      switch (currentUser.role) {
+        case 'admin':
+          navigate('/admin');
+          break;
+        case 'teacher':
+          navigate('/teacher');
+          break;
+        case 'student':
+          navigate('/student');
+          break;
+      }
+      // navigate('/admin')
+    } else {
+      navigate('/')
+    }
+
+  }, [])
   return (
-    <Routes>
-      <Route
-        path="/login"
-        element={
-          !isAuthenticated ? (
-            <LoginPage />
-          ) : (
-            <Navigate to={`/${userType}`} replace />
-          )
-        }
-      />
-      <Route path="/sign-up" element={<SignUp />} />
+    <>
 
-      <Route
-        path="/admin/*"
-        element={
-          <ProtectedRoute role="admin">
+      {
+        toast && <Toast>{toast}</Toast>
+      }
+
+      <Routes>
+        <Route path="/" element={<LoginPage />}>
+          <Route index element={<LoginForm />} />
+          <Route path="signup" element={<SignUp />} />
+        </Route>
+        <Route
+          path="/admin/*"
+          element={
             <AdminDashboard />
-          </ProtectedRoute>
-        }
-      />
-
-      <Route
-        path="/teacher/*"
-        element={
-          <ProtectedRoute role="teacher">
+          }
+        />
+        <Route
+          path="/teacher/*"
+          element={
             <TeacherDashboard />
-          </ProtectedRoute>
-        }
-      />
+          }
+        />
 
-      <Route
-        path="/student/*"
-        element={
-          <ProtectedRoute role="student">
-            <StudentPage />
-          </ProtectedRoute>
-        }
-      >
-        <Route index element={<Dashboard />} />
-        <Route path="analyctics" element={<Analyctics />} />
-        <Route path="classes" element={<Class />} />
-        <Route path="events" element={<Events />} />
-      </Route>
+        <Route path="/student" element={<StudentPage />}>
+          <Route path="" element={<Dashboard />} />
+          <Route path="analyctics" element={<Analyctics />} />
+          <Route path="details" element={<Details/>} />
+          <Route path="events" element={<Events />} />
+        </Route>
 
-      <Route path="/" element={<Navigate to="/login" replace />} />
-      <Route path="*" element={<Navigate to="/login" replace />} />
-    </Routes>
-  );
+      </Routes>
+    </>
+  )
 }
 
 

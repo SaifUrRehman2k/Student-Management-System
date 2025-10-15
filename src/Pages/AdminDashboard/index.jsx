@@ -21,22 +21,47 @@ const AdminDashboard = () => {
             <div className="flex-1 flex flex-col">
                 <Header title="Admin Dashboard" onMenuClick={() => setOpen(true)} userType="admin" />
 
-                <main className="p-6 max-w-7xl mx-auto w-full">
+                <main className="p-6 max-w-7xl mx-auto w-full bg-gray-200">
                     <StatsGrid stats={stats} />
 
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
-                        <section className="col-span-2 bg-white rounded-lg shadow-soft p-5">
+                        <section className="col-span-2 bg-gray-100 rounded-lg shadow-soft p-5">
                             <h3 className="text-lg font-semibold text-gray-800 mb-4">Student Enrollment</h3>
                             <Charts type="line" />
                         </section>
 
-                        <section className="bg-white rounded-lg shadow-soft p-5">
+                        <section className="bg-gray-100 rounded-lg shadow-soft p-5">
                             <h3 className="text-lg font-semibold text-gray-800 mb-4">Course Distribution</h3>
                             <Charts type="pie" />
                         </section>
                     </div>
 
-                    <div className="bg-white rounded-lg shadow-soft p-5 mt-6">
+                    <div className="bg-gray-100 rounded-lg shadow-soft p-5 mt-6 h-[30em] overflow-x-hidden">
+                        <div className="w-full h-[90%] flex flex-col flex-wrap gap-5">
+                            <div className="w-full h-10 border">
+                                <h3 className="text-lg font-semibold text-gray-800 mb-4">Users</h3>
+
+                            </div>
+                            <div className="w-full h-10 border border-gray-900">
+
+                            </div>
+
+                            <div className="w-full h-10 border border-gray-900">
+
+                            </div>
+
+                            <div className="w-full h-10 border border-gray-900">
+
+                            </div>
+
+                            <div className="w-full h-10 border border-gray-900">
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div className="bg-gray-100 rounded-lg shadow-soft p-5 mt-6">
                         <h3 className="text-lg font-semibold text-gray-800 mb-4">Recent Activity</h3>
                         <div className="space-y-3">
                             {[

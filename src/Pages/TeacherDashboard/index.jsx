@@ -20,7 +20,7 @@ const TeacherDashboard = () => {
             <div className="flex-1 flex flex-col">
                 <Header title="Teacher Dashboard" onMenuClick={() => setOpen(true)} userType="teacher" />
 
-                <main className="p-6 max-w-7xl mx-auto w-full">
+                <main className="p-6 max-w-7xl mx-auto w-full bg-gray-200">
                     <StatsGrid stats={stats} />
 
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">

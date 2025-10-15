@@ -2,7 +2,7 @@ import React from "react";
 
 const Header = ({ title, onMenuClick, userType }) => {
     return (
-        <header className="bg-white border-b border-gray-100 shadow-sm sticky top-0 z-40">
+        <header className="bg-gray-200 border-b border-gray-100 shadow-sm sticky top-0 z-40">
             <div className="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8 py-3">
                 <div className="flex items-center space-x-4">
                     <button
