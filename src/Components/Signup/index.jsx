@@ -11,6 +11,8 @@ import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { useNavigate } from 'react-router'
 import { useDispatch } from 'react-redux'
 import { createToast } from '../../redux/toastSlice.js'
+import { startLoading, stopLoading } from '../../redux/loaderSlice.js'
+import { FirebaseError } from 'firebase/app'
 
 
 const SignUp = () => {
@@ -42,13 +44,6 @@ const SignUp = () => {
         setSelectedRole(e.target.value)
     }
 
-    const signupUser = async (email, password) => {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password)
-        console.log(userCredential.user);
-
-        return userCredential.user;
-    }
-
     const studentAnalytics = {
         attendance: 0,
         score: {
@@ -65,46 +60,46 @@ const SignUp = () => {
         experience: 0
     }
 
+
+    const signupUser = async (email, password) => {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password)
+        console.log(userCredential.user);
+
+        return userCredential.user;
+    }
     const saveUserData = async (uid, firstname, lastname, role, password) => {
-        // if (role == 'admin') {
-        //     return await setDoc(doc(db, role, uid), {
-        //         first_name: firstname,
-        //         last_name: lastname,
-        //         role: role,
-        //         password: password,
-        //         email: auth.currentUser.email,
-        //         uid: uid
-        //     })
-        // } else if (role == 'student') {
-        //     return await setDoc(doc(db, role, uid), {
-        //         first_name: firstname,
-        //         last_name: lastname,
-        //         password: password,
-        //         role: role,
-        //         email: auth.currentUser.email,
-        //         analytics: studentAnalytics,
-        //         uid: uid
-        //     })
-        // } else {
-        //     return await setDoc(doc(db, role, uid), {
-        //         first_name: firstname,
-        //         last_name: lastname,
-        //         password: password,
-        //         role: role,
-        //         email: auth.currentUser.email,
-        //         uid: uid
+        if (role == 'admin') {
+            return await setDoc(doc(db, 'users', uid), {
+                first_name: firstname,
+                last_name: lastname,
+                role: role,
+                password: password,
+                email: auth.currentUser.email,
+                uid: uid
+            })
+        } else if (role == 'student') {
+            return await setDoc(doc(db, 'users', uid), {
+                first_name: firstname,
+                last_name: lastname,
+                role: role,
+                password: password,
+                email: auth.currentUser.email,
+                uid: uid,
+                analytics: studentAnalytics
+            })
+        } else {
+            return await setDoc(doc(db, 'users', uid), {
+                first_name: firstname,
+                last_name: lastname,
+                role: role,
+                password: password,
+                email: auth.currentUser.email,
+                uid: uid,
+                analytics: teacherAnalytics
+            })
+        }
 
-        //     })
-        // }
 
-        return await setDoc(doc(db, 'users', uid), {
-            first_name: firstname,
-            last_name: lastname,
-            role: role,
-            password: password,
-            email: auth.currentUser.email,
-            uid: uid
-        })
 
     }
 
@@ -112,6 +107,7 @@ const SignUp = () => {
         e.preventDefault();
 
         try {
+            dispatch(startLoading())
             const user = await signupUser(email, password);
             const uid = user.uid;
 
@@ -120,14 +116,24 @@ const SignUp = () => {
                 dispatch(createToast('Account Created successfully'));
                 console.log('User saved successfully');
                 navigate('/');
+                dispatch(stopLoading())
             } catch (dbError) {
                 await user.delete();
                 console.error('Firestore error, user deleted:', dbError);
-                dispatch(createToast('Error creating account'));
+                dispatch(stopLoading())
+                // dispatch(createToast(dbError));
             }
 
         } catch (error) {
-            console.log(error);
+            dispatch(stopLoading())
+
+            if (error instanceof FirebaseError) {
+                const errorMsg = error.message.replace(/^Firebase:\s*/, '').replace(/\s*\(.*\)$/, '');
+                console.log(errorMsg);
+                dispatch(createToast(errorMsg));
+            } else {
+                console.log(`Unexpected error: ${error}`);
+            }
         }
 
 

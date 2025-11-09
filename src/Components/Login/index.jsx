@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux'
 import { getUser } from '../../redux/userSlice'
 import Toast from '../Toast'
 import { createToast } from '../../redux/toastSlice'
+import { startLoading, stopLoading } from '../../redux/loaderSlice'
 
 const LoginForm = () => {
 
@@ -50,8 +51,10 @@ const LoginForm = () => {
     const validateLogin = async (e, email, password) => {
         e.preventDefault();
         try {
+            dispatch(startLoading())
             const userCredentials = await signInWithEmailAndPassword(auth, email, password)
             const user = userCredentials.user;
+            console.log(user);       
             const userDocRef = doc(db, 'users', user.uid);
             const docSnap = await getDoc(userDocRef)
 
@@ -61,13 +64,17 @@ const LoginForm = () => {
                 console.log('Login successful')
                 dispatch(createToast('Login successful'))
                 navigateUser(docSnap.data())
+                dispatch(stopLoading())
             } else {
-                dispatch(createToast('>No user profile found'))
+                dispatch(stopLoading())
+                dispatch(createToast('No user profile found'))
             }
 
         } catch (error) {
             console.log(error);
+            dispatch(stopLoading())
             dispatch(createToast('Login failed'))
+            
         }
     }
 

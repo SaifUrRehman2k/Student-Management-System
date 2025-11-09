@@ -6,17 +6,33 @@ import clock from '../../assets/icons/clock.svg'
 import book from '../../assets/icons/book.svg'
 import studentHat from '../../assets/icons/studentHat.svg'
 import Footer from '../../Components/Footer/index.jsx'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { signOut } from 'firebase/auth'
+import { createToast } from '../../redux/toastSlice.js'
+import { removeUser } from '../../redux/userSlice.js'
+import { auth } from '../../firebase.js'
 
 
 
 const StudentPage = () => {
     const navigate = useNavigate()
-    const handleLogout = () => {
-        localStorage.removeItem('currentUser')
-        console.log('logged out');
+    const dispatch = useDispatch()
 
-    }
+    const handleLogout = () => {
+        signOut(auth).then(() => {
+            dispatch(removeUser())
+            dispatch(createToast('Signed out Successfully'))
+            navigate("/");
+        }).catch((error)=> {
+            if (error instanceof FirebaseError) {
+                const errorMsg = error.message.replace(/^Firebase:\s*/, '').replace(/\s*\(.*\)$/, '');
+                console.log(errorMsg);
+                dispatch(createToast(errorMsg));
+            } else {
+                dispatch(createToast(`Unexpected error: ${error}`));
+            }
+        })
+    };
 
     const user = JSON.parse(localStorage.getItem('currentUser'))
     if(!user) {
