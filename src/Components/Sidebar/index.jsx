@@ -2,6 +2,9 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, NavLink } from "react-router-dom";
 import { removeUser } from "../../redux/userSlice";
+import { signOut } from "firebase/auth";
+import { auth } from "../../firebase";
+import { createToast } from "../../redux/toastSlice";
 // import { logout } from "../../redux/userSlice";
 
 const Sidebar = ({ userType = "admin", isOpen = false, setIsOpen = () => { } }) => {
@@ -9,8 +12,19 @@ const Sidebar = ({ userType = "admin", isOpen = false, setIsOpen = () => { } }) 
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        dispatch(removeUser())
-        navigate("/");
+        signOut(auth).then(() => {
+            dispatch(removeUser())
+            dispatch(createToast('Signed out Successfully'))
+            navigate("/");
+        }).catch((error)=> {
+            if (error instanceof FirebaseError) {
+                const errorMsg = error.message.replace(/^Firebase:\s*/, '').replace(/\s*\(.*\)$/, '');
+                console.log(errorMsg);
+                dispatch(createToast(errorMsg));
+            } else {
+                dispatch(createToast(`Unexpected error: ${error}`));
+            }
+        })
     };
 
     const adminMenu = [
@@ -43,7 +57,7 @@ const Sidebar = ({ userType = "admin", isOpen = false, setIsOpen = () => { } }) 
             )}
 
             <aside
-                className={`fixed lg:static inset-y-0 left-0 z-30 w-64 transforms shadow-[2px_0px_8px] shadow-gray-200 transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+                className={`fixed inset-y-0 left-0 z-30 w-64 h-full transforms shadow-[2px_0px_8px] shadow-gray-200 transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
                     }`}
             >
                 <div className="h-full bg-gray-200 text-white shadow-lg flex flex-col">
