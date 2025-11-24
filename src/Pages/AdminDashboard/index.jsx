@@ -9,8 +9,8 @@ import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../firebase";
 import { getAllTeachers } from "../../redux/teachersSlice";
 
-const AdminPortal = () => {
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'))
+const AdminPortal = (props) => {
+    // const currentUser = JSON.parse(localStorage.getItem('currentUser'))  
     const [open, setOpen] = useState(false);
 
     const [numOfStudents, setNumOfStudents] = useState(0)
@@ -42,7 +42,7 @@ const AdminPortal = () => {
         getData()
     }, [])
 
-    console.log(`numOfStudents: ${numOfStudents} & numOfTeachers: ${numOfTeachers}`);
+    // console.log(`numOfStudents: ${numOfStudents} & numOfTeachers: ${numOfTeachers}`);
     
 
     const stats = [
@@ -52,14 +52,14 @@ const AdminPortal = () => {
         { title: "Revenue", value: "$12,456", change: "+15%", icon: "💰", color: "orange" },
     ];
 
-    console.log(currentUser);
+    console.log(props.currentUser);
 
     return (
         <div className="flex min-h-screen h-[100vh] lg:ml-64">
             <Sidebar userType="admin" isOpen={open} setIsOpen={setOpen} />
 
             <div className="flex-1 h-full flex flex-col">
-                <Header userName={currentUser.first_name} title="Admin Dashboard" onMenuClick={() => setOpen(true)} userType="admin" />
+                <Header userName={props.currentUser.first_name} title="Admin Dashboard" onMenuClick={() => setOpen(true)} userType="admin" />
 
                 <main className="p-6 min-h-full max-w-7xl mx-auto w-full bg-gray-200">
                     <StatsGrid stats={stats} />
