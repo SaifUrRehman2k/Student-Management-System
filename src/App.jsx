@@ -42,6 +42,8 @@ export default function App() {
   const loadingState = useSelector(state => state.loader.value)
   const showModal = useSelector(state => state.modal.display)
   const modalName = useSelector(state => state.modal.modalName)
+  
+  const currentUser = JSON.parse(localStorage.getItem('currentUser'))
 
   useEffect(() => {
     if (toast) {
@@ -53,8 +55,6 @@ export default function App() {
   }, [toast]);
 
   useEffect(() => {
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'))
-
     if (!currentUser) {
       navigate('/')
     } else {
@@ -129,15 +129,12 @@ export default function App() {
                   <small className="text-[1.2em] font-[400]">{user.password}</small>
                 </div>
               </div>
-
-
             </div>
-
             <ButtonGroup btn1Class={'bg-blue-500 text-gray-100'} btn2Class={'border-[2px] border-blue-500 text-gray-800'} title1='Edit' title2='Close' btn2Fucntiion={() => dispatch(hideModal())} />
-
           </Modal>
         )
       }
+      
 
 
       <Routes>
@@ -145,7 +142,7 @@ export default function App() {
           <Route index element={<LoginForm />} />
           <Route path="signup" element={<SignUp />} />
         </Route>
-        <Route path="/admin" element={<AdminPortal />}>
+        <Route path="/admin" element={<AdminPortal currentUser={currentUser}/>}>
           <Route path="" element={<AdminDashBoard />} />
           <Route path="students" element={<Students />} />
           <Route path="teachers" element={<Teachers />} />
