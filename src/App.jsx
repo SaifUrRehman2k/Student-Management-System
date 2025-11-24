@@ -21,6 +21,8 @@ import Courses from "./Pages/AdminDashboard/Courses"
 import Modal from "./Components/Modal";
 import Button, { ButtonGroup } from "./Components/Button";
 import { hideModal } from "./redux/modalSlice";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { auth } from "./firebase";
 
 // const ProtectedRoute = ({ children, role }) => {
 //   const { isAuthenticated, userType } = useSelector((state) => state.auth);
@@ -42,7 +44,7 @@ export default function App() {
   const loadingState = useSelector(state => state.loader.value)
   const showModal = useSelector(state => state.modal.display)
   const modalName = useSelector(state => state.modal.modalName)
-  
+
   const currentUser = JSON.parse(localStorage.getItem('currentUser'))
 
   useEffect(() => {
@@ -55,23 +57,33 @@ export default function App() {
   }, [toast]);
 
   useEffect(() => {
-    if (!currentUser) {
-      navigate('/')
-    } else {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in
+        console.log("User is still signed in:", user);
+        if (!currentUser) {
+          navigate('/')
+        } else {
 
-      setUser(currentUser)
-      switch (currentUser.role) {
-        case 'admin':
-          navigate('/admin');
-          break;
-        case 'teacher':
-          navigate('/teacher');
-          break;
-        case 'student':
-          navigate('/student');
-          break;
+          setUser(currentUser)
+          switch (currentUser.role) {
+            case 'admin':
+              navigate('/admin');
+              break;
+            case 'teacher':
+              navigate('/teacher');
+              break;
+            case 'student':
+              navigate('/student');
+              break;
+          }
+        }
+      } else {
+        // User is signed out
+        console.log("User is signed out");
       }
-    }
+    });
+
 
   }, [])
 
@@ -134,7 +146,21 @@ export default function App() {
           </Modal>
         )
       }
-      
+      {
+        showModal && modalName === 'denialModal' && (
+          <Modal>
+            <h1 className="text-[2em] font-[700]">Access Denied</h1>
+            <p className="flex flex-col text-[1.6em]">
+              You are not an Authorized ADMIN.
+              <small className="text-[0.6em] text-gray-600">
+                 Please wait for other admins to verifyyour account
+              </small>
+            </p>
+            <Button title='Cancel' classFromParent='bg-blue-600 text-gray-100' btnFucntiion={() => dispatch(hideModal())} />
+          </Modal>
+        )
+      }
+
 
 
       <Routes>
@@ -142,7 +168,7 @@ export default function App() {
           <Route index element={<LoginForm />} />
           <Route path="signup" element={<SignUp />} />
         </Route>
-        <Route path="/admin" element={<AdminPortal currentUser={currentUser}/>}>
+        <Route path="/admin" element={<AdminPortal currentUser={currentUser} />}>
           <Route path="" element={<AdminDashBoard />} />
           <Route path="students" element={<Students />} />
           <Route path="teachers" element={<Teachers />} />

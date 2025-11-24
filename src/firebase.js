@@ -25,12 +25,4 @@ const analytics = getAnalytics(app);
 export const db = getFirestore(app)
 export const auth = getAuth(app)
 
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      // User is signed in
-      console.log("User is still signed in:", user);
-    } else {
-      // User is signed out
-      console.log("User is signed out");
-    }
-  });
+

@@ -3,38 +3,69 @@ import Sidebar from "../../Components/Sidebar";
 import Header from "../../Components/Header";
 import StatsGrid from "../../Components/StatsGrid";
 import Dashboard from "./Dashboard";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { collection, getDocs } from "firebase/firestore";
-import { db } from "../../firebase";
+import { auth, db } from "../../firebase";
 import { getAllTeachers } from "../../redux/teachersSlice";
+import { showModal } from "../../redux/modalSlice";
+import { removeUser } from "../../redux/userSlice";
+import { createToast } from "../../redux/toastSlice";
+import { signOut } from "firebase/auth";
 
 const AdminPortal = (props) => {
     // const currentUser = JSON.parse(localStorage.getItem('currentUser'))  
     const [open, setOpen] = useState(false);
-
     const [numOfStudents, setNumOfStudents] = useState(0)
     const [numOfTeachers, setNumOfTeachers] = useState(0)
 
-
     const teachersData = useSelector((state) => state.teachersData.data)
     const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    const handleLogout = () => {
+        signOut(auth).then(() => {
+            dispatch(removeUser())
+            dispatch(createToast('Signed out Successfully'))
+            navigate("/");
+        }).catch((error) => {
+            if (error instanceof FirebaseError) {
+                const errorMsg = error.message.replace(/^Firebase:\s*/, '').replace(/\s*\(.*\)$/, '');
+                console.log(errorMsg);
+                dispatch(createToast(errorMsg));
+            } else {
+                dispatch(createToast(`Unexpected error: ${error}`));
+            }
+        })
+    };
+
+    useEffect(() => {
+        if (props.currentUser && !props.currentUser?.verified) {
+            console.log(props.currentUser?.verified);
+            // const signOutUser = () => {
+            //     // dispatch(removeUser())
+            //     signOutUser
+            // }
+            handleLogout()
+            dispatch(showModal('denialModal'))
+        }
+    }, [props.currentUser]);
 
     useEffect(() => {
         const getData = async () => {
             const userSnap = await getDocs(collection(db, 'users'))
             let teachersCount = 0;
             let studentsCount = 0;
-            
-            userSnap.forEach((doc)=> {
+
+            userSnap.forEach((doc) => {
                 const user = doc.data()
                 if (user.role === 'teacher') {
                     teachersCount++
-                } else if (user.role === 'student'){
+                } else if (user.role === 'student') {
                     studentsCount++
                 }
             })
-            
+
             setNumOfTeachers(teachersCount)
             setNumOfStudents(studentsCount)
         }
@@ -43,7 +74,7 @@ const AdminPortal = (props) => {
     }, [])
 
     // console.log(`numOfStudents: ${numOfStudents} & numOfTeachers: ${numOfTeachers}`);
-    
+
 
     const stats = [
         { title: "Total Students", value: numOfStudents, change: "+12%", icon: "👨‍🎓", color: "blue" },
