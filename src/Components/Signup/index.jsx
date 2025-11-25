@@ -1,4 +1,4 @@
-import React, { use, useState } from 'react'
+import React, { use, useEffect, useState } from 'react'
 import Input, { Radio, DoubleInput } from '../Input'
 import Button, { Submit } from '../Button'
 import { auth, db } from '../../firebase'
@@ -7,7 +7,7 @@ import teacherSvg from '../../assets/icons/teacher.svg'
 import adminSvg from '../../assets/icons/admin.svg'
 import studentSvg from '../../assets/icons/student.svg'
 import firebase from 'firebase/compat/app'
-import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { createUserWithEmailAndPassword, validatePassword } from 'firebase/auth'
 import { useNavigate } from 'react-router'
 import { useDispatch } from 'react-redux'
 import { createToast } from '../../redux/toastSlice.js'
@@ -21,19 +21,71 @@ const SignUp = () => {
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
     const [selectedRole, setSelectedRole] = useState('')
-    const [message, setmessage] = useState('')
+    const [isSubmitDisable, setIsSubmitDIsable] = useState(true)
+
+    const [passwordValidation, setPasswordValidation] = useState(null)
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
+
+    let [validationClass, setValidationClass] = useState('')
+
+    const errorMessages = {
+        containsLowercaseLetter: "Password must include at least one lowercase letter.",
+        containsUppercaseLetter: "Password must include at least one uppercase letter.",
+        containsNumericCharacter: "Password must include at least one number.",
+        meetsLengthRequirements: "Password must contain 6 characters."
+    };
+
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            runValidation(password)
+        }, 300);
+
+        return () => clearTimeout(timeout);
+    })
+
+
+    const runValidation = async (pwd) => {
+        if (!pwd) {
+            setPasswordValidation([]);
+            return;
+        }
+
+        const status = await validatePassword(auth, pwd)
+
+        if (status.isValid) {
+            setPasswordValidation(['password is valid'])
+            setValidationClass('text-green-700 p-4')
+            setIsSubmitDIsable(false)
+            console.log("Validation status:", status);
+            return;
+        }
+
+        const failed = Object.keys(errorMessages).filter(
+            key => status[key] === false
+        )
+
+        // console.log("Validation status:", status);
+        const invalidPassword = failed.map(key => errorMessages[key])
+        setPasswordValidation(invalidPassword)
+        setValidationClass(' text-red-800 py-2')
+        setIsSubmitDIsable(true)
+        console.log(invalidPassword);
+
+    }
+    const handlePasswordChange = async (e) => {
+        setPassword(e.target.value)
+    };
 
 
     // const pass = 'admin'
     const updateEmailValue = (e) => {
         setEmailValue(e.target.value)
     }
-    const updatePasswordValue = (e) => {
-        setPassword(e.target.value)
-    }
+    // const updatePasswordValue = (e) => {
+    //     setPassword(e.target.value)
+    // }
     const updatedLastName = (e) => {
         setLastName(e.target.value)
     }
@@ -54,7 +106,7 @@ const SignUp = () => {
     }
 
     const teacherAnalytics = {
-        subject: 'webdevlopment',
+        class: 'webdevlopment',
         positive_feedback: 0,
         negative_feedback: 0,
         experience: 0
@@ -105,6 +157,10 @@ const SignUp = () => {
 
     const handleSubmit = async (e, email, password, firstname, lastname, role) => {
         e.preventDefault();
+        const status = await validatePassword(auth, password)
+        if(!status.isValid) {
+            dispatch(createToast("Password doesn't match our policy"))
+        }
 
         try {
             dispatch(startLoading())
@@ -185,10 +241,14 @@ const SignUp = () => {
                     </div>
                     <DoubleInput inputType='text' placeHolder1='John' placeHolder2='Doe' inputName1='First-name' inputName2='Last-name' updatedFirstName={updatedFirstName} updatedLastName={updatedLastName} />
                     <Input inputType='email' placeHolder='jondoe23@gmailcom' inputName='E-mail' updatedVal={updateEmailValue} />
-                    <Input inputType='password' placeHolder='Password' inputName='Password' updatedVal={updatePasswordValue} />
+                    <Input inputType='password' placeHolder='Password' inputName='Password' updatedVal={handlePasswordChange} />
                 </div>
-
-                <Submit title='Create Account' />
+                <div className="text-black">
+                    {passwordValidation?.map((msg, index) => (
+                        <p className={`py-0 px-0 text-[1.2em] ${validationClass}`} key={index}>{msg}</p>
+                    ))}
+                </div>
+                <Submit title='Create Account' isDisabled={isSubmitDisable} />
             </form>
         </>
     )

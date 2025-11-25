@@ -6,7 +6,7 @@ const LoginPage = () => {
         <div className='w-screen h-screen bg-[url(/images/stats-bg.jpg)] bg-cover bg-no-repeat bg-left text-gray-800'>
             <div className='w-full h-full backdrop-blur-md flex flex-row items-center justify-center'>
 
-                <div className='w-[20em] md:w-[25em]  h-[28em] flex items-center justify-center bg-gray-200 shadow-lg shadow-gray-500 rounded-2xl'>
+                <div className='w-[20em] md:w-[25em] h-max px-4 py-8 flex items-center justify-center bg-gray-200 shadow-lg shadow-gray-500 rounded-2xl'>
 
                     <Outlet/>
                 </div>
