@@ -153,7 +153,7 @@ export default function App() {
             <p className="flex flex-col text-[1.6em]">
               You are not an Authorized ADMIN.
               <small className="text-[0.6em] text-gray-600">
-                 Please wait for other admins to verifyyour account
+                Please wait for other admins to verifyyour account
               </small>
             </p>
             <Button title='Cancel' classFromParent='bg-blue-600 text-gray-100' btnFucntiion={() => dispatch(hideModal())} />
