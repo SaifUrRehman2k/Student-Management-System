@@ -34,7 +34,7 @@ const SignUp = () => {
         containsLowercaseLetter: "Password must include at least one lowercase letter.",
         containsUppercaseLetter: "Password must include at least one uppercase letter.",
         containsNumericCharacter: "Password must include at least one number.",
-        meetsLengthRequirements: "Password must contain 6 characters."
+        meetsMinPasswordLength: "Password must contain atleast 6 characters."
     };
 
     useEffect(() => {
@@ -56,7 +56,7 @@ const SignUp = () => {
 
         if (status.isValid) {
             setPasswordValidation(['password is valid'])
-            setValidationClass('text-green-700 p-4')
+            setValidationClass('text-green-700 py-1')
             setIsSubmitDIsable(false)
             console.log("Validation status:", status);
             return;
@@ -69,7 +69,7 @@ const SignUp = () => {
         // console.log("Validation status:", status);
         const invalidPassword = failed.map(key => errorMessages[key])
         setPasswordValidation(invalidPassword)
-        setValidationClass(' text-red-800 py-2')
+        setValidationClass('text-red-800 py-1')
         setIsSubmitDIsable(true)
         console.log(invalidPassword);
 
@@ -243,11 +243,16 @@ const SignUp = () => {
                     <Input inputType='email' placeHolder='jondoe23@gmailcom' inputName='E-mail' updatedVal={updateEmailValue} />
                     <Input inputType='password' placeHolder='Password' inputName='Password' updatedVal={handlePasswordChange} />
                 </div>
-                <div className="text-black">
+                <ol className="text-black list-inside max-w-md space-y-1 ">
                     {passwordValidation?.map((msg, index) => (
-                        <p className={`py-0 px-0 text-[1.2em] ${validationClass}`} key={index}>{msg}</p>
+                        <>
+                            <li className={`flex items-center p-0 text-[0.8em] ${validationClass}`} key={index}>
+                                <svg className="w-4 h-4 text-fg-success me-1.5 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+                                {msg}
+                            </li>
+                        </>
                     ))}
-                </div>
+                </ol>
                 <Submit title='Create Account' isDisabled={isSubmitDisable} />
             </form>
         </>

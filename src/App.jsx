@@ -23,6 +23,7 @@ import Button, { ButtonGroup } from "./Components/Button";
 import { hideModal } from "./redux/modalSlice";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "./firebase";
+import UserInfo from "./Components/userInfo";
 
 // const ProtectedRoute = ({ children, role }) => {
 //   const { isAuthenticated, userType } = useSelector((state) => state.auth);
@@ -124,7 +125,7 @@ export default function App() {
 
             <div className="flex flex-row items-center w-full justify-between">
               <div className="w-[30%] aspect-square bg-gradient-to-br from-blue-700 to-blue-300 rounded-full flex items-center justify-center text-white font-semibold">
-                <h1 className="text-6xl">{user.first_name.charAt(0)}</h1>
+                <h1 className="text-6xl">{user?.first_name.charAt(0)}</h1>
               </div>
 
               <div className="flex flex-col flex-wrap items-start w-[60%]">
@@ -168,9 +169,11 @@ export default function App() {
           <Route index element={<LoginForm />} />
           <Route path="signup" element={<SignUp />} />
         </Route>
+
         <Route path="/admin" element={<AdminPortal currentUser={currentUser} />}>
           <Route path="" element={<AdminDashBoard />} />
           <Route path="students" element={<Students />} />
+          <Route path="user/:uid" element={<UserInfo/>} />
           <Route path="teachers" element={<Teachers />} />
           <Route path="courses" element={<Courses />} />
         </Route>
