@@ -126,7 +126,8 @@ const Students = () => {
           </Modal>
         )
       }
-      <div className="flex flex-col flex-wrap gap-6 mt-6 h-[40em]">
+      <h1 className='text-gray-800 text-[3em] font-[500] my-5'>Students</h1>
+      <div className="flex flex-col flex-nowrap gap-6 mt-6 h-[40em]">
         <div className='flex flex-row items-center flex-nowrap gap-4'>
           <h2 onClick={() => {
             setDisplayUsers('all')
@@ -156,7 +157,7 @@ const Students = () => {
         </div>
 
 
-        <div className='text-black flex flex-col flex-wrap items-center gap-4'>
+        <div className='text-black flex flex-row md:flex-col flex-wrap items-center gap-4 w-full'>
           {
             displayUsers === "all" && studentsData && studentsData.map((user, index) => (
               <UsersRow key={user.uid} verifyAUser={() => verifyUser(user.uid)} user={user} />
