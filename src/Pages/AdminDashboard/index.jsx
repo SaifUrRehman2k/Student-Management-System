@@ -42,10 +42,6 @@ const AdminPortal = (props) => {
     useEffect(() => {
         if (props.currentUser && !props.currentUser?.verified) {
             console.log(props.currentUser?.verified);
-            // const signOutUser = () => {
-            //     // dispatch(removeUser())
-            //     signOutUser
-            // }
             handleLogout()
             dispatch(showModal('denialModal'))
         }
@@ -83,7 +79,7 @@ const AdminPortal = (props) => {
         { title: "Revenue", value: "$12,456", change: "+15%", icon: "💰", color: "orange" },
     ];
 
-    console.log(props.currentUser);
+    // console.log(props.currentUser);
 
     return (
         <div className="flex min-h-screen h-[100vh] lg:ml-64">
@@ -92,7 +88,7 @@ const AdminPortal = (props) => {
             <div className="flex-1 h-full flex flex-col">
                 <Header userName={props.currentUser.first_name} title="Admin Dashboard" onMenuClick={() => setOpen(true)} userType="admin" />
 
-                <main className="p-6 min-h-full max-w-7xl mx-auto w-full bg-gray-200">
+                <main className="p-6 h-max md:h-full max-w-7xl mx-auto w-full bg-gray-200">
                     <StatsGrid stats={stats} />
 
                     <Outlet />
