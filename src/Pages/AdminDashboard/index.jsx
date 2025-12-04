@@ -14,7 +14,6 @@ import { createToast } from "../../redux/toastSlice";
 import { signOut } from "firebase/auth";
 
 const AdminPortal = (props) => {
-    // const currentUser = JSON.parse(localStorage.getItem('currentUser'))  
     const [open, setOpen] = useState(false);
     const [numOfStudents, setNumOfStudents] = useState(0)
     const [numOfTeachers, setNumOfTeachers] = useState(0)
@@ -69,7 +68,6 @@ const AdminPortal = (props) => {
         getData()
     }, [])
 
-    // console.log(`numOfStudents: ${numOfStudents} & numOfTeachers: ${numOfTeachers}`);
 
 
     const stats = [
@@ -79,16 +77,15 @@ const AdminPortal = (props) => {
         { title: "Revenue", value: "$12,456", change: "+15%", icon: "💰", color: "orange" },
     ];
 
-    // console.log(props.currentUser);
 
     return (
-        <div className="flex min-h-screen h-[100vh] lg:ml-64">
+        <div className="flex min-h-[100vh] h-full lg:ml-64">
             <Sidebar userType="admin" isOpen={open} setIsOpen={setOpen} />
 
             <div className="flex-1 h-full flex flex-col">
                 <Header userName={props.currentUser.first_name} title="Admin Dashboard" onMenuClick={() => setOpen(true)} userType="admin" />
 
-                <main className="p-6 h-max md:h-full max-w-7xl mx-auto w-full bg-gray-200">
+                <main className="p-6 min-h-[100vh] h-max md:h-full max-w-7xl mx-auto w-full bg-gray-200">
                     <StatsGrid stats={stats} />
 
                     <Outlet />

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, NavLink } from 'react-router-dom'
-import Modal from '../../../Components/Modal'
+import Modal from '../../../Components/Modals'
 import Button, { ButtonGroup } from '../../../Components/Button'
 import { collection, doc, getDocs, runTransaction } from 'firebase/firestore'
 import { db } from '../../../firebase'

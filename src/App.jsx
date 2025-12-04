@@ -18,26 +18,15 @@ import AdminDashBoard from "./Pages/AdminDashboard/Dashboard";
 import Students from "./Pages/AdminDashboard/Students";
 import Teachers from "./Pages/AdminDashboard/Teachers";
 import Courses from "./Pages/AdminDashboard/Courses"
-import Modal from "./Components/Modal";
+import Modal, { DeleteModal, ProfileModal } from "./Components/Modals";
 import Button, { ButtonGroup } from "./Components/Button";
 import { hideModal } from "./redux/modalSlice";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "./firebase";
 import UserInfo from "./Components/userInfo";
 
-// const ProtectedRoute = ({ children, role }) => {
-//   const { isAuthenticated, userType } = useSelector((state) => state.auth);
-
-//   if (!isAuthenticated) return <Navigate to="/login" replace />;
-//   if (role && userType !== role) return <Navigate to={`/${userType}`} replace />;
-
-//   return children;
-// };
-
-
 
 export default function App() {
-  // const { isAuthenticated, userType } = useSelector((state) => state.auth);
   const [user, setUser] = useState(null)
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -58,15 +47,13 @@ export default function App() {
   }, [toast]);
 
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         // User is signed in
         console.log("User is still signed in:", user);
-        if (!currentUser) {
-          navigate('/')
-        } else {
-
+        if (currentUser) {
           setUser(currentUser)
+
           switch (currentUser.role) {
             case 'admin':
               navigate('/admin');
@@ -78,14 +65,38 @@ export default function App() {
               navigate('/student');
               break;
           }
+        } else {
+          const userDoc = await getDoc(doc(db, "users", user.uid));
+
+          if (userDoc.exists()) {
+            const userData = userDoc.data()
+            localStorage.setItem('currentUser', JSON.stringify(userData));
+            setUser(userData);
+
+            switch (userData.role) {
+              case 'admin':
+                navigate('/admin');
+                break;
+              case 'teacher':
+                navigate('/teacher');
+                break;
+              case 'student':
+                navigate('/student');
+                break;
+            }
+          } else {
+            console.log("No role found, signing out");
+            signOut(auth);
+          }
+
         }
       } else {
-        // User is signed out
         console.log("User is signed out");
+        navigate('/');
       }
     });
 
-
+    return () => unsubscribe();
   }, [])
 
 
@@ -100,51 +111,38 @@ export default function App() {
       }
       {
         showModal && modalName === 'deleteModal' && (
-          <Modal>
-            <h1 className="text-[2em] font-[700]">Are you Sure?</h1>
-            <p className="flex flex-col text-[1.6em]">
-              You want to delete the user?
-              <small className="text-[0.6em] text-gray-600">
-                The User will be deleted forever from the database & Auth.
-              </small>
-            </p>
-            <div className="w-[100%] flex flex-row flex-nowrap justify-between">
-              <Button title="Delete" classFromParent="w-[48%] h-[2em] bg-red-800 text-gray-100 " />
-              <Button title="Cancel" btnFucntiion={() => {
-                dispatch(hideModal())
-              }} classFromParent="w-[48%] h-[2em] bg-red-200 text-gray-800 " />
-            </div>
-
-          </Modal>
+          <DeleteModal user={user} />
         )
       }
       {
         showModal && modalName === 'profileModal' && (
-          <Modal>
-            <h1 className="text-[2em] font-[700]">Your Profile</h1>
+          // <Modal>
+          //   <h1 className="text-[2em] font-[700]">Your Profile</h1>
 
-            <div className="flex flex-row items-center w-full justify-between">
-              <div className="w-[30%] aspect-square bg-gradient-to-br from-blue-700 to-blue-300 rounded-full flex items-center justify-center text-white font-semibold">
-                <h1 className="text-6xl">{user?.first_name.charAt(0)}</h1>
-              </div>
+          //   <div className="flex flex-row items-center w-full justify-between">
+          //     <div className="w-[30%] aspect-square bg-gradient-to-br from-blue-700 to-blue-300 rounded-full flex items-center justify-center text-white font-semibold">
+          //       <h1 className="text-6xl">{user?.first_name.charAt(0)}</h1>
+          //     </div>
 
-              <div className="flex flex-col flex-wrap items-start w-[60%]">
-                <div className="w-full flex flex-row flex-nowrap justify-between items-center border-b-[1px] border-gray-300 py-2">
-                  <h1 className="text-[1.3em] font-[500]">Name</h1>
-                  <small className="text-[1.2em] font-[400]">{`${user.first_name} ${user.last_name}`}</small>
-                </div>
-                <div className="w-full flex flex-row flex-nowrap justify-between items-center border-b-[1px] border-gray-300 py-2">
-                  <h1 className="text-[1.3em] font-[500]">Email</h1>
-                  <small className="text-[1.2em] font-[400]">{user.email}</small>
-                </div>
-                <div className="w-full flex flex-row flex-nowrap justify-between items-center border-b-[1px] border-gray-300 py-2">
-                  <h1 className="text-[1.3em] font-[500]">Password</h1>
-                  <small className="text-[1.2em] font-[400]">{user.password}</small>
-                </div>
-              </div>
-            </div>
-            <ButtonGroup btn1Class={'bg-blue-500 text-gray-100'} btn2Class={'border-[2px] border-blue-500 text-gray-800'} title1='Edit' title2='Close' btn2Fucntiion={() => dispatch(hideModal())} />
-          </Modal>
+          //     <div className="flex flex-col flex-wrap items-start w-[60%]">
+          //       <div className="w-full flex flex-row flex-nowrap justify-between items-center border-b-[1px] border-gray-300 py-2">
+          //         <h1 className="text-[1.3em] font-[500]">Name</h1>
+          //         <small className="text-[1.2em] font-[400]">{`${user.first_name} ${user.last_name}`}</small>
+          //       </div>
+          //       <div className="w-full flex flex-row flex-nowrap justify-between items-center border-b-[1px] border-gray-300 py-2">
+          //         <h1 className="text-[1.3em] font-[500]">Email</h1>
+          //         <small className="text-[1.2em] font-[400]">{user.email}</small>
+          //       </div>
+          //       <div className="w-full flex flex-row flex-nowrap justify-between items-center border-b-[1px] border-gray-300 py-2">
+          //         <h1 className="text-[1.3em] font-[500]">Password</h1>
+          //         <small className="text-[1.2em] font-[400]">{user.password}</small>
+          //       </div>
+          //     </div>
+          //   </div>
+          //   <ButtonGroup btn1Class={'bg-blue-500 text-gray-100'} btn2Class={'border-[2px] border-blue-500 text-gray-800'} title1='Edit' title2='Close' btn2Fucntiion={() => dispatch(hideModal())} />
+          // </Modal>
+
+          <ProfileModal user={cur} />
         )
       }
       {
@@ -173,7 +171,7 @@ export default function App() {
         <Route path="/admin" element={<AdminPortal currentUser={currentUser} />}>
           <Route path="" element={<AdminDashBoard />} />
           <Route path="students" element={<Students />} />
-          <Route path="user/:uid" element={<UserInfo/>} />
+          <Route path="user/:uid" element={<UserInfo />} />
           <Route path="teachers" element={<Teachers />} />
           <Route path="courses" element={<Courses />} />
         </Route>

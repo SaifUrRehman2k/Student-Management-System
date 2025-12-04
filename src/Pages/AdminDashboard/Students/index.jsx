@@ -5,7 +5,7 @@ import { collection, doc, getDoc, getDocs, runTransaction } from 'firebase/fires
 import Spinner from '../../../Components/Spinner'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllStudents } from '../../../redux/studentsSlice'
-import Modal from '../../../Components/Modal'
+import Modal from '../../../Components/Modals'
 import { hideModal, showModal } from '../../../redux/modalSlice'
 import Button, { ButtonGroup } from '../../../Components/Button'
 import { onAuthStateChanged } from 'firebase/auth'
@@ -93,39 +93,6 @@ const Students = () => {
 
   return (
     <>
-      {
-        showModal && modalName === 'userInfoModal' && (
-          <Modal>
-            <h1 className="text-[2em] font-[700]">Your Profile</h1>
-
-            <div className="flex flex-row items-center w-full justify-between">
-              {/* <div className="w-[30%] aspect-square bg-gradient-to-br from-blue-700 to-blue-300 rounded-full flex items-center justify-center text-white font-semibold">
-                <h1 className="text-6xl">{user.first_name.charAt(0)}</h1>
-              </div>
-
-              <div className="flex flex-col flex-wrap items-start w-[60%]">
-                <div className="w-full flex flex-row flex-nowrap justify-between items-center border-b-[1px] border-gray-300 py-2">
-                  <h1 className="text-[1.3em] font-[500]">Name</h1>
-                  <small className="text-[1.2em] font-[400]">{`${user.first_name} ${user.last_name}`}</small>
-                </div>
-                <div className="w-full flex flex-row flex-nowrap justify-between items-center border-b-[1px] border-gray-300 py-2">
-                  <h1 className="text-[1.3em] font-[500]">Email</h1>
-                  <small className="text-[1.2em] font-[400]">{user.email}</small>
-                </div>
-                <div className="w-full flex flex-row flex-nowrap justify-between items-center border-b-[1px] border-gray-300 py-2">
-                  <h1 className="text-[1.3em] font-[500]">Password</h1>
-                  <small className="text-[1.2em] font-[400]">{user.password}</small>
-                </div>
-              </div> */}
-              <h1>Hellow</h1>
-
-            </div>
-
-            <ButtonGroup btn1Class={'bg-blue-500 text-gray-100'} btn2Class={'border-[2px] border-blue-500 text-gray-800'} title1='Edit' title2='Close' btn2Fucntiion={() => dispatch(hideModal())} />
-
-          </Modal>
-        )
-      }
       <h1 className='text-gray-800 text-[3em] font-[500] my-5'>Students</h1>
       <div className="flex flex-col flex-nowrap gap-6 mt-6 h-[40em]">
         <div className='flex flex-row items-center flex-nowrap gap-4'>
@@ -153,7 +120,6 @@ const Students = () => {
           }} className={`text-gray-800 text-2xl ${displayUsers === 'recent' ? 'underline' : undefined}`}>
             <Link>Recent</Link>
           </h2>
-          {/* <button className='bg-amber-900 text-white' >Get</button> */}
         </div>
 
 
