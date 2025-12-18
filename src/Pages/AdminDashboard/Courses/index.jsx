@@ -5,6 +5,7 @@ import { ButtonGroup } from '../../../Components/Button'
 const Courses = () => {
   return (
     <>
+      <h1 className='text-gray-800 sm:text-[2em] text-[1.4em] font-[500] my-5'>Courses</h1>
       <div className='p-2 my-12 grid grid-cols-3 grid-rows-2 gap-6'>
         <Card1x1 title={'Web-Devlopment'} titleInfo={
           <div className='flex items-center justify-center gap-2 '>

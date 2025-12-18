@@ -15,7 +15,7 @@ const Header = ({ title, onMenuClick, userType, userName }) => {
                     >
                         ☰
                     </button>
-                    <h1 className="text-lg sm:text-xl font-semibold text-gray-800">
+                    <h1 className="text-[1.8em] sm:text-[2.2em] font-semibold text-gray-800">
                         {title}
                     </h1>
                 </div>
@@ -28,7 +28,7 @@ const Header = ({ title, onMenuClick, userType, userName }) => {
 
                     <div className="flex items-center space-x-3 hover:cursor-pointer" onClick={()=> dispatch(showModal('profileModal'))}>
                         <div className="w-9 h-9 bg-gradient-to-br from-blue-700 to-blue-300 rounded-full flex items-center justify-center text-white font-semibold">
-                            {userName.charAt(0)}
+                            {userName?.charAt(0)}
                         </div>
                         <div className="text-right ">
                             <h1 className="text-[1em] font-medium text-gray-800 leading-[12px]">

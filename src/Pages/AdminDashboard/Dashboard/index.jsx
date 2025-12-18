@@ -4,7 +4,7 @@ import Charts from "../../../Amcharts";
 const AdminDashBoard = () => {
     return (
         <>
-            <h1 className='text-gray-800 text-[3em] font-[500] my-5'>Dashboard</h1>
+            <h1 className='text-gray-800 sm:text-[2em] text-[1.4em] font-[500] my-5'>Dashboard</h1>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
                 <section className="col-span-2 bg-gray-100 rounded-lg shadow-soft p-5">
                     <h3 className="text-lg font-semibold text-gray-800 mb-4">Student Enrollment</h3>

@@ -72,28 +72,10 @@ const Students = () => {
   }
 
   checkIsVerified()
-  const userDeletionModal =
-    <>
-      <Modal>
-        <h1 className="text-[2em] font-[700]">Are you Sure?</h1>
-        <p className="flex flex-col text-[1.6em]">
-          You want to delete the user?
-          <small className="text-[0.6em] text-gray-600">
-            The User will be deleted forever from the database & Auth.
-          </small>
-        </p>
-        <div className="w-[100%] flex flex-row flex-nowrap justify-between">
-          <Button title="Delete" classFromParent="w-[48%] h-[2em] bg-red-800 text-gray-100 " />
-          <Button title="Cancel" classFromParent="w-[48%] h-[2em] bg-red-200 text-gray-800 " />
-        </div>
-      </Modal>
-
-    </>
-
 
   return (
     <>
-      <h1 className='text-gray-800 text-[3em] font-[500] my-5'>Students</h1>
+      <h1 className='text-gray-800 sm:text-[2em] text-[1.4em] font-[500] my-5'>Students</h1>
       <div className="flex flex-col flex-nowrap gap-6 mt-6 h-[40em]">
         <div className='flex flex-row items-center flex-nowrap gap-4'>
           <h2 onClick={() => {

@@ -39,14 +39,6 @@ const AdminPortal = (props) => {
     };
 
     useEffect(() => {
-        if (props.currentUser && !props.currentUser?.verified) {
-            console.log(props.currentUser?.verified);
-            handleLogout()
-            dispatch(showModal('denialModal'))
-        }
-    }, [props.currentUser]);
-
-    useEffect(() => {
         const getData = async () => {
             const userSnap = await getDocs(collection(db, 'users'))
             let teachersCount = 0;
@@ -68,7 +60,13 @@ const AdminPortal = (props) => {
         getData()
     }, [])
 
-
+    useEffect(() => {
+        if (props.currentUser && !props.currentUser?.verified) {
+            console.log(props.currentUser?.verified);
+            handleLogout()
+            dispatch(showModal('denialModal'))
+        }
+    }, [props.currentUser]);
 
     const stats = [
         { title: "Total Students", value: numOfStudents, change: "+12%", icon: "👨‍🎓", color: "blue" },
@@ -83,7 +81,7 @@ const AdminPortal = (props) => {
             <Sidebar userType="admin" isOpen={open} setIsOpen={setOpen} />
 
             <div className="flex-1 h-full flex flex-col">
-                <Header userName={props.currentUser.first_name} title="Admin Dashboard" onMenuClick={() => setOpen(true)} userType="admin" />
+                <Header userName={props.currentUser?.first_name} title="Admin Dashboard" onMenuClick={() => setOpen(true)} userType="admin" />
 
                 <main className="p-6 min-h-[100vh] h-max md:h-full max-w-7xl mx-auto w-full bg-gray-200">
                     <StatsGrid stats={stats} />

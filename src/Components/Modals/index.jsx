@@ -18,25 +18,18 @@ const Modal = ({ children }) => {
 }
 
 export const DeleteModal = ({ item }) => {
+    const dispatch = useDispatch()
     return (
         <>
-            <div className='fixed inset-0 z-[999] flex items-center justify-center'>
-                <div className='absolute inset-0 bg-gray-700 opacity-40'></div>
+            <h1 className="text-[2em] font-[700]">Are you Sure?</h1>
+            <p className="flex flex-col text-[1.6em]">
+                You want to delete the {item}?
+                <small className="text-[0.6em] text-gray-600">
+                    The {item} will be deleted forever from the database & Auth.
+                </small>
+            </p>
 
-                <div className='relative z-10 w-[30em] h-max flex flex-col flex-nowrap gap-8 rounded-2xl bg-white p-6 text-gray-800'>
-                    <h1 className="text-[2em] font-[700]">Are you Sure?</h1>
-                    <p className="flex flex-col text-[1.6em]">
-                        You want to delete the {item}?
-                        <small className="text-[0.6em] text-gray-600">
-                            The {item} will be deleted forever from the database & Auth.
-                        </small>
-                    </p>
-
-                    <ButtonGroup btn1Class={'bg-red-500 text-gray-100'} btn2Class={'border-[2px] border-red-500 text-gray-800'} title1='Edit' title2='Close' btn2Fucntiion={() => dispatch(hideModal())} />
-                </div>
-            </div>
-
-
+            <ButtonGroup btn1Class={'bg-red-500 text-gray-100'} btn2Class={'border-[2px] border-red-500 text-gray-800'} title1='Edit' title2='Close' btn2Fucntiion={() => dispatch(hideModal())} />
         </>
     )
 }
@@ -72,6 +65,25 @@ export const ProfileModal = ({ user }) => {
         </>
     )
 }
+
+
+export const DenialModal = () => {
+    return (
+        <>
+            <h1 className="text-[2em] font-[700]">Access Denied</h1>
+            <p className="flex flex-col text-[1.6em]">
+                You are not an Authorized ADMIN.
+                <small className="text-[0.6em] text-gray-600">
+                    Please wait for other admins to verifyyour account
+                </small>
+            </p>
+            <ButtonGroup btn1Class={'bg-blue-500 text-gray-100'} btn2Class={'border-[2px] border-blue-500 text-gray-800'} title1='Edit' title2='Close' btn2Fucntiion={() => dispatch(hideModal())} />
+
+        </>
+    )
+}
+
+
 
 
 export default Modal

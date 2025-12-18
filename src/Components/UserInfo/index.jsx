@@ -45,29 +45,33 @@ const UserInfo = () => {
             {/* <h1 className='text-black text-[2em]'>Id: {uid}</h1> */}
             <div className='flex flex-col flex-wrap items-center gap-4 w-full h-max text-black mt-5'>
                 <div className='flex flex-row flex-nowrap items-center justify-between w-full h-2em py-4 border-b-[1px] border-b-gray-400 '>
-                    <h3 className='text-gray-800 text-[2em]'>Name</h3>
-                    <div className='flex gap-2'>
-                        <input type="text" className='p-2 text-black bg-gray-300 rounded-[1em]' disabled placeholder={userData?.first_name} />
-                        <input type="text" className='p-2 text-black bg-gray-300 rounded-[1em]' disabled placeholder={userData?.last_name} />
+                    <h3 className='text-gray-800 text-[2em]'>First name</h3>
+                    <div className='flex gap-2 w-[50%]'>
+                        <input type="text" className='p-2 text-black w-max bg-gray-100 border-[1px] border-gray-800 rounded-[1em] text-[1.2em]' disabled placeholder={userData?.first_name} />
                     </div>
-
+                </div>
+                <div className='flex flex-row flex-nowrap items-center justify-between w-full h-2em py-4 border-b-[1px] border-b-gray-400 '>
+                    <h3 className='text-gray-800 text-[2em]'>Last name</h3>
+                    <div className='flex gap-2 w-[50%]'>
+                        <input type="text" className='p-2 text-black w-max bg-gray-100 border-[1px] border-gray-800 rounded-[1em] text-[1.2em]' disabled placeholder={userData?.last_name} />
+                    </div>
                 </div>
                 <div className='flex flex-row flex-nowrap items-center justify-between w-full h-2em py-4 border-b-[1px] border-b-gray-400 '>
                     <h3 className='text-gray-800 text-[2em]'>Email</h3>
-                    <div className='flex gap-2'>
-                        <input type="text" className='p-2 text-black bg-gray-300 rounded-[1em]' disabled placeholder={userData?.email} />
+                    <div className='flex gap-2 w-[50%]'>
+                        <input type="text" className='p-2 text-black w-[80%] bg-gray-100 border-[1px] border-gray-800 rounded-[1em] text-[1.2em]' disabled placeholder={userData?.email} />
                     </div>
                 </div>
                 <div className='flex flex-row flex-nowrap items-center justify-between w-full h-2em py-4 border-b-[1px] border-b-gray-400 '>
                     <h3 className='text-gray-800 text-[2em]'>User ID</h3>
-                    <div className='flex gap-2'>
-                        <input type="text" className='p-2 text-black bg-gray-300 rounded-[1em]' disabled placeholder={userData?.uid} />
+                    <div className='flex gap-2 w-[50%]'>
+                        <input type="text" className='p-2 text-black w-full bg-gray-100 border-[1px] border-gray-800 rounded-[1em] text-[1.2em]' disabled placeholder={userData?.uid} />
                     </div>
                 </div>
                 <div className='flex flex-row flex-nowrap items-center justify-between w-full h-2em py-4 border-b-[1px] border-b-gray-400 '>
                     <h3 className='text-gray-800 text-[2em]'>Verified</h3>
-                    <div className='flex gap-2'>
-                        <input type="text" className='p-2 text-black bg-gray-300 rounded-[1em]' disabled placeholder={userData?.verified.toString()} />
+                    <div className='flex gap-2 w-[50%]'>
+                        <input type="text" className='p-2 text-black w-max bg-gray-100 border-[1px] border-gray-800 rounded-[1em] text-[1.2em]' disabled placeholder={userData?.verified?.toString()} />
                     </div>
                 </div>
             </div>
