@@ -9,7 +9,7 @@ import Events from "./Pages/Student/Events";
 import LoginPage from "./Pages/LoginPage";
 import SignUp from "./Components/Signup";
 import LoginForm from "./Components/Login";
-import { removeToast } from "./redux/toastSlice";
+import { createToast, removeToast } from "./redux/toastSlice";
 import Toast from "./Components/Toast";
 import Details from "./Pages/Student/Details";
 import Spinner from "./Components/Spinner"
@@ -18,12 +18,13 @@ import AdminDashBoard from "./Pages/AdminDashboard/Dashboard";
 import Students from "./Pages/AdminDashboard/Students";
 import Teachers from "./Pages/AdminDashboard/Teachers";
 import Courses from "./Pages/AdminDashboard/Courses"
-import Modal, { DeleteModal, ProfileModal } from "./Components/Modals";
+import Modal, { DeleteModal, DenialModal, ProfileModal } from "./Components/Modals";
 import Button, { ButtonGroup } from "./Components/Button";
 import { hideModal } from "./redux/modalSlice";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "./firebase";
 import UserInfo from "./Components/userInfo";
+import { getDoc } from "firebase/firestore";
 
 
 export default function App() {
@@ -46,6 +47,20 @@ export default function App() {
     }
   }, [toast]);
 
+  const checkRole = (userRole) => {
+    switch (userRole) {
+      case 'admin':
+        navigate('/admin');
+        break;
+      case 'teacher':
+        navigate('/teacher');
+        break;
+      case 'student':
+        navigate('/student');
+        break;
+    }
+  }
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
@@ -53,18 +68,8 @@ export default function App() {
         console.log("User is still signed in:", user);
         if (currentUser) {
           setUser(currentUser)
-
-          switch (currentUser.role) {
-            case 'admin':
-              navigate('/admin');
-              break;
-            case 'teacher':
-              navigate('/teacher');
-              break;
-            case 'student':
-              navigate('/student');
-              break;
-          }
+          checkRole(currentUser.role)
+          
         } else {
           const userDoc = await getDoc(doc(db, "users", user.uid));
 
@@ -72,26 +77,17 @@ export default function App() {
             const userData = userDoc.data()
             localStorage.setItem('currentUser', JSON.stringify(userData));
             setUser(userData);
+            checkRole(userData.role)
 
-            switch (userData.role) {
-              case 'admin':
-                navigate('/admin');
-                break;
-              case 'teacher':
-                navigate('/teacher');
-                break;
-              case 'student':
-                navigate('/student');
-                break;
-            }
           } else {
-            console.log("No role found, signing out");
+            dispatch(createToast('No user Foun. Signing out!'))
             signOut(auth);
           }
 
         }
       } else {
         console.log("User is signed out");
+        dispatch(createToast('No user Signed In'))
         navigate('/');
       }
     });
@@ -111,54 +107,26 @@ export default function App() {
       }
       {
         showModal && modalName === 'deleteModal' && (
-          <DeleteModal user={user} />
+          <Modal>
+            <DeleteModal user={user} />
+          </Modal>
         )
       }
       {
         showModal && modalName === 'profileModal' && (
-          // <Modal>
-          //   <h1 className="text-[2em] font-[700]">Your Profile</h1>
-
-          //   <div className="flex flex-row items-center w-full justify-between">
-          //     <div className="w-[30%] aspect-square bg-gradient-to-br from-blue-700 to-blue-300 rounded-full flex items-center justify-center text-white font-semibold">
-          //       <h1 className="text-6xl">{user?.first_name.charAt(0)}</h1>
-          //     </div>
-
-          //     <div className="flex flex-col flex-wrap items-start w-[60%]">
-          //       <div className="w-full flex flex-row flex-nowrap justify-between items-center border-b-[1px] border-gray-300 py-2">
-          //         <h1 className="text-[1.3em] font-[500]">Name</h1>
-          //         <small className="text-[1.2em] font-[400]">{`${user.first_name} ${user.last_name}`}</small>
-          //       </div>
-          //       <div className="w-full flex flex-row flex-nowrap justify-between items-center border-b-[1px] border-gray-300 py-2">
-          //         <h1 className="text-[1.3em] font-[500]">Email</h1>
-          //         <small className="text-[1.2em] font-[400]">{user.email}</small>
-          //       </div>
-          //       <div className="w-full flex flex-row flex-nowrap justify-between items-center border-b-[1px] border-gray-300 py-2">
-          //         <h1 className="text-[1.3em] font-[500]">Password</h1>
-          //         <small className="text-[1.2em] font-[400]">{user.password}</small>
-          //       </div>
-          //     </div>
-          //   </div>
-          //   <ButtonGroup btn1Class={'bg-blue-500 text-gray-100'} btn2Class={'border-[2px] border-blue-500 text-gray-800'} title1='Edit' title2='Close' btn2Fucntiion={() => dispatch(hideModal())} />
-          // </Modal>
-
-          <ProfileModal user={cur} />
+          <Modal>
+            <ProfileModal user={user} />
+          </Modal>
         )
       }
       {
         showModal && modalName === 'denialModal' && (
           <Modal>
-            <h1 className="text-[2em] font-[700]">Access Denied</h1>
-            <p className="flex flex-col text-[1.6em]">
-              You are not an Authorized ADMIN.
-              <small className="text-[0.6em] text-gray-600">
-                Please wait for other admins to verifyyour account
-              </small>
-            </p>
-            <Button title='Cancel' classFromParent='bg-blue-600 text-gray-100' btnFucntiion={() => dispatch(hideModal())} />
+            <DenialModal/>
           </Modal>
         )
       }
+
 
 
 
