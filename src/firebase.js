@@ -5,8 +5,8 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getAnalytics } from "firebase/analytics";
 
 const firebaseConfig = {
-  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
   projectId: "student-management-52dcf",
   storageBucket: "student-management-52dcf.firebasestorage.app",
   messagingSenderId: "459789141581",
