@@ -19,11 +19,9 @@ import Students from "./Pages/AdminDashboard/Students";
 import Teachers from "./Pages/AdminDashboard/Teachers";
 import Courses from "./Pages/AdminDashboard/Courses"
 import Modal, { DeleteModal, DenialModal, ProfileModal } from "./Components/Modals";
-import Button, { ButtonGroup } from "./Components/Button";
-import { hideModal } from "./redux/modalSlice";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "./firebase";
-import UserInfo from "./Components/userInfo";
+import UserInfo from "./Components/UserInfo";
 import { getDoc } from "firebase/firestore";
 
 
@@ -139,7 +137,7 @@ export default function App() {
         <Route path="/admin" element={<AdminPortal currentUser={currentUser} />}>
           <Route path="" element={<AdminDashBoard />} />
           <Route path="students" element={<Students />} />
-          <Route path="user/:uid" element={<UserInfo />} />
+          <Route path="user/:uid" element={<UserInfo/>} />
           <Route path="teachers" element={<Teachers />} />
           <Route path="courses" element={<Courses />} />
         </Route>
