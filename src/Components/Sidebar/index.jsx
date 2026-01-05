@@ -52,7 +52,7 @@ const Sidebar = ({ userType = "admin", isOpen = false, setIsOpen = () => { } }) 
             {isOpen && (
                 <div
                     onClick={() => setIsOpen(false)}
-                    className="fixed inset-0 bg-black bg-opacity-30 z-20 lg:hidden"
+                    className="fixed inset-0 bg-[rgba(173,173,173,0.5)] blur-lg z-30 lg:hidden"
                 />
             )}
 
