@@ -12,7 +12,7 @@ export const ButtonGroup = (props) => {
     return (
         <>
             <div className="w-full flex flex-row flex-nowrap justify-between">
-                <button type='button' className={`py-1 hover:cursor-pointer rounded-[0.5em] w-[48%] ${props.btn1Class}`} onClick={props.btn1Fucntiion}>{props.title1}</button>
+                <button type='button' className={`py-1 hover:cursor-pointer rounded-[0.5em] w-[48%] font-semibold text-[1.1em]/[1em] tracking-[1px] ${props.btn1Class}`} onClick={props.btn1Fucntiion}>{props.title1}</button>
                 <button type='button' className={`py-1 hover:cursor-pointer rounded-[0.5em] w-[48%]  ${props.btn2Class}`} onClick={props.btn2Fucntiion}>{props.title2}</button>
             </div>
         </>

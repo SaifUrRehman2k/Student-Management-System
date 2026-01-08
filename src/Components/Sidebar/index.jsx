@@ -5,6 +5,9 @@ import { removeUser } from "../../redux/userSlice";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase";
 import { createToast } from "../../redux/toastSlice";
+import { AnalyticsIcon, StudentIcon, TeacherIcon, DashboardIcon, LibraryBooksIcon, SettingsIcon } from '../../Components/Icons/index.jsx'
+
+
 // import { logout } from "../../redux/userSlice";
 
 const Sidebar = ({ userType = "admin", isOpen = false, setIsOpen = () => { } }) => {
@@ -28,21 +31,21 @@ const Sidebar = ({ userType = "admin", isOpen = false, setIsOpen = () => { } }) 
     };
 
     const adminMenu = [
-        { name: "Dashboard", icon: "📊", path: "/admin" },
-        { name: "Students", icon: "👨‍🎓", path: "/admin/students" },
-        { name: "Teachers", icon: "👩‍🏫", path: "/admin/teachers" },
-        { name: "Courses", icon: "📚", path: "/admin/courses" },
-        { name: "Analytics", icon: "📈", path: "/admin/analytics" },
-        { name: "Settings", icon: "⚙️", path: "/admin/settings" },
+        { name: "Dashboard", icon: <DashboardIcon/> , path: "/admin" },
+        { name: "Students", icon: <StudentIcon/>, path: "/admin/students" },
+        { name: "Teachers", icon: <TeacherIcon/>, path: "/admin/teachers" },
+        { name: "Courses", icon: <LibraryBooksIcon/>, path: "/admin/courses" },
+        { name: "Analytics", icon: <AnalyticsIcon/>, path: "/admin/analytics" },
+        { name: "Settings", icon: <SettingsIcon/>, path: "/admin/settings" },
     ];
 
     const teacherMenu = [
-        { name: "Dashboard", icon: "📊", path: "/teacher" },
-        { name: "My Courses", icon: "📚", path: "/teacher/courses" },
-        { name: "Students", icon: "👨‍🎓", path: "/teacher/students" },
-        { name: "Assignments", icon: "📝", path: "/teacher/assignments" },
-        { name: "Grades", icon: "🎯", path: "/teacher/grades" },
-        { name: "Schedule", icon: "📅", path: "/teacher/schedule" },
+        { name: "Dashboard", icon: <DashboardIcon/>, path: "/teacher" },
+        { name: "My Courses", icon: <StudentIcon/>, path: "/teacher/courses" },
+        { name: "Students", icon: <TeacherIcon/>, path: "/teacher/students" },
+        { name: "Assignments", icon: <LibraryBooksIcon/>, path: "/teacher/assignments" },
+        { name: "Grades", icon: <AnalyticsIcon/>, path: "/teacher/grades" },
+        { name: "Schedule", icon: <SettingsIcon/>, path: "/teacher/schedule" },
     ];
 
     const menu = userType === "admin" ? adminMenu : teacherMenu;
@@ -95,7 +98,8 @@ const Sidebar = ({ userType = "admin", isOpen = false, setIsOpen = () => { } }) 
                                     }`
                                 }
                             >
-                                <span className="text-lg">{item.icon}</span>
+                                {/* <span className="text-lg">{item.icon}</span> */}
+                                {item.icon}
                                 <span>{item.name}</span>
                             </NavLink>
                         ))}
