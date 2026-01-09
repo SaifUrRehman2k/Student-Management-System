@@ -63,7 +63,7 @@ const Sidebar = ({ userType = "admin", isOpen = false, setIsOpen = () => { } }) 
                 className={`fixed inset-y-0 left-0 z-30 w-64 h-full transforms shadow-[2px_0px_8px] shadow-gray-200 transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
                     }`}
             >
-                <div className="h-full bg-gray-200 text-white shadow-lg flex flex-col">
+                <div className="h-full bg-slate-200 text-white shadow-lg flex flex-col">
                     <div className="flex items-center justify-between px-5 py-5 s">
                         <div className="flex items-center space-x-3">
                             <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-sm">

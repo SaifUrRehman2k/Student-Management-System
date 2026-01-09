@@ -12,6 +12,8 @@ import { showModal } from "../../redux/modalSlice";
 import { removeUser } from "../../redux/userSlice";
 import { createToast } from "../../redux/toastSlice";
 import { signOut } from "firebase/auth";
+import { CashIcon, DashboardIcon, LibraryBooksIcon, StudentIcon, TeacherIcon } from "../../Components/Icons";
+
 
 const AdminPortal = (props) => {
     const [open, setOpen] = useState(false);
@@ -69,21 +71,21 @@ const AdminPortal = (props) => {
     }, [props.currentUser]);
 
     const stats = [
-        { title: "Total Students", value: numOfStudents, change: "+12%", icon: "👨‍🎓", color: "blue" },
-        { title: "Total Teachers", value: numOfTeachers, change: "+5%", icon: "👩‍🏫", color: "green" },
-        { title: "Courses", value: "124", change: "+8%", icon: "📚", color: "purple" },
-        { title: "Revenue", value: "$12,456", change: "+15%", icon: "💰", color: "orange" },
+        { title: "Total Students", value: numOfStudents, change: "+12%", icon: <StudentIcon/> , color: "blue" },
+        { title: "Total Teachers", value: numOfTeachers, change: "+5%", icon: <TeacherIcon/> , color: "green" },
+        { title: "Courses", value: "124", change: "+8%", icon: <LibraryBooksIcon/>, color: "purple" },
+        { title: "Revenue", value: "$12,456", change: "+15%", icon: <CashIcon/> , color: "orange" },
     ];
 
 
     return (
-        <div className="flex min-h-[100vh] h-full lg:ml-64">
+        <div className="flex min-h-screen h-full lg:ml-64">
             <Sidebar userType="admin" isOpen={open} setIsOpen={setOpen} />
 
             <div className="flex-1 h-full flex flex-col">
                 <Header userName={props.currentUser?.first_name} title="Admin Dashboard" onMenuClick={() => setOpen(!open)} userType="admin" />
 
-                <main className="p-6 min-h-[100vh] h-max md:h-full max-w-7xl mx-auto w-full bg-gray-200">
+                <main className="p-6 min-h-screen h-max md:h-full max-w-7xl mx-auto w-full bg-slate-300">
                     <StatsGrid stats={stats} />
 
                     <Outlet />

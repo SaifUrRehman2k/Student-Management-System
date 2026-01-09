@@ -13,9 +13,12 @@ const StatsGrid = ({ stats = [] }) => {
             {stats.map((s, i) => (
                 <div
                     key={i}
-                    className="bg-white rounded-lg shadow-soft p-5 smooth hover-glow"
+                    className="bg-slate-100 rounded-lg shadow-soft p-4 smooth hover-glow "
                 >
-                    <div className="flex items-center justify-between">
+                    <div className="flex-col items-center justify-between h-full gap-2">
+                        <div className={`w-12 h-max rounded-lg flex items-start justify-start ${colorMap[s.color] || colorMap.blue}`}>
+                            <span className="w-max h-max flex self-start">{s.icon}</span>
+                        </div>
                         <div>
                             <p className="text-sm text-gray-500 font-medium">{s.title}</p>
                             <p className="text-2xl font-semibold text-emerald-600 mt-1">{s.value}</p>
@@ -24,9 +27,6 @@ const StatsGrid = ({ stats = [] }) => {
                             </p>
                         </div>
 
-                        <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${colorMap[s.color] || colorMap.blue}`}>
-                            <span className="text-xl">{s.icon}</span>
-                        </div>
                     </div>
                 </div>
             ))}
