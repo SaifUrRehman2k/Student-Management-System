@@ -20,9 +20,9 @@ import Teachers from "./Pages/AdminDashboard/Teachers";
 import Courses from "./Pages/AdminDashboard/Courses"
 import Modal, { DeleteModal, DenialModal, ProfileModal } from "./Components/Modals";
 import { onAuthStateChanged, signOut } from "firebase/auth";
-import { auth } from "./firebase";
+import { auth, db } from "./firebase";
 import UserInfo from "./Components/UserInfo";
-import { getDoc } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 
 
 export default function App() {
