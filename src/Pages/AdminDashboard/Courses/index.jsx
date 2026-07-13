@@ -34,7 +34,7 @@ const Courses = () => {
             </div>
           </div>
 
-          <ButtonGroup btn1Class={'bg-blue-500 text-gray-100'} title2='Settings' title1='View' btn2Class={'border-[2px] border-blue-500 text-gray-200'} />
+          <ButtonGroup btn1Class={'bg-blue-500 text-gray-100 hover:bg-gray-300 hover:text-gray-700 '} title2='Settings' title1='View' btn2Class={'border-[2px] border-blue-500 text-gray-700 hover:bg-blue-400 hover:text-gray-100'} />
 
         </Card1x1>
 
@@ -66,7 +66,7 @@ const Courses = () => {
 
           </div>
 
-          <ButtonGroup btn1Class={'bg-blue-500 text-gray-100'} title2='Settings' title1='View' btn2Class={'border-[2px] border-blue-500 text-gray-200'} />
+          <ButtonGroup btn1Class={'bg-blue-500 text-gray-100 hover:bg-gray-300 hover:text-gray-700'} title2='Settings' title1='View' btn2Class={'border-[2px] border-blue-500 text-gray-700 hover:bg-blue-400 hover:text-gray-100'} />
         </Card1x1>
 
         <Card1x1 title={'Web-Devlopment'} titleInfo={
@@ -95,7 +95,7 @@ const Courses = () => {
             </div>
 
           </div>
-          <ButtonGroup btn1Class={'bg-blue-500 text-gray-100'} title2='Settings' title1='View' btn2Class={'border-[2px] border-blue-500 text-gray-200'} />
+          <ButtonGroup btn1Class={'bg-blue-500 text-gray-100 hover:bg-gray-300 hover:text-gray-700'} title2='Settings' title1='View' btn2Class={'border-[2px] border-blue-500 text-gray-700 hover:bg-blue-400 hover:text-gray-100'} />
 
         </Card1x1>
 

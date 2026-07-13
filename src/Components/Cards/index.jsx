@@ -2,10 +2,10 @@ import React from 'react'
 
 const Card1x1 = ({ children, title, titleInfo, classFromParent }) => {
   return (
-    <div className={`flex flex-col flex-nowrap items-center gap-4 dark:bg-slate-800 dark:text-gray-200 py-2 px-4 rounded-[1em] shadow-[3px_2px_12px] shadow-gray-300 dark:shadow-gray-700 bg-gray-50 ${classFromParent}`}>
+    <div className={`flex flex-col flex-nowrap items-center gap-4 bg-slate-200 text-gray-800 py-2 px-4 rounded-[1em] shadow-[3px_2px_12px] shadow-gray-200 ${classFromParent}`}>
       <div className='w-full flex flex-row flex-nowrap items-center justify-between'>
-        <b className='text-[16px] font-[500] text-gray-800 dark:text-gray-200'>{title}</b>
-        <small className='text-[12px] font-[400] text-gray-600 dark:text-gray-400'>{titleInfo}</small>
+        <b className='text-[16px] font-[500] text-gray-800'>{title}</b>
+        <small className='text-[12px] font-[400] text-gray-600'>{titleInfo}</small>
       </div>
       <div className='w-full h-[90%] flex flex-col flex-nowrap gap-2'>
         {children}
