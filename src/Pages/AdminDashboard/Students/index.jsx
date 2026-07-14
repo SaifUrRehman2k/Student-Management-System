@@ -106,7 +106,7 @@ const Students = () => {
 
   }
 
-  const verifyUser = async (uid) => {
+  const updateVerificationStatus = async (uid) => {
     const userRef = doc(db, 'users', uid)
 
     try {
@@ -118,13 +118,14 @@ const Students = () => {
           return;
         }
 
-        transaction.update(userRef, { verified: true })
+        const userVerificationStatus= userDoc.data().verified
+        transaction.update(userRef, { verified : !userVerificationStatus})
         console.log(userRef, userDoc);
         setupdateState(++updatestate)
-        dispatch(createToast('User Verified'))
+        dispatch(createToast('User status updated Successfully!'))
       })
 
-      console.log('userVerified successfully');
+      console.log('User status updated Successfully!');
 
     } catch (error) {
       console.log(`transaction failed: ${error}`);
@@ -181,18 +182,18 @@ const Students = () => {
         <div className='text-black flex flex-row md:flex-col flex-wrap items-center gap-4 w-full'>
           {
             displayUsers === "all" && studentsData && studentsData.map((user, index) => (
-              <UsersRow key={user.uid} verifyAUser={() => verifyUser(user.uid)} user={user} />
+              <UsersRow key={user.uid} updateVerification={() => updateVerificationStatus(user.uid)} user={user} />
             ))
 
           }
           {
             displayUsers === "verified" && studentsData && studentsData.filter(user => user.verified).map((user, index) => (
-              <UsersRow key={user.uid} verifyAUser={() => verifyUser(user.uid)} user={user} />
+              <UsersRow key={user.uid} updateVerification={() => updateVerificationStatus(user.uid)} user={user} />
             ))
           }
           {
             displayUsers === "unverified" && studentsData && studentsData.filter(user => !user.verified).map((user, index) => (
-              <UsersRow key={user.uid} verifyAUser={() => verifyUser(user.uid)} user={user} />
+              <UsersRow key={user.uid} updateVerification={() => updateVerificationStatus(user.uid)} user={user} />
             ))
           }
         </div>

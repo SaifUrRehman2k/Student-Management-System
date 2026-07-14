@@ -16,14 +16,14 @@ const UsersRow = (props) => {
                     <p className='sm:w-[30&] md:w-[15%] flex flex-row flex-nowrap justify-between items-center text-red-600 text-[0.9em] font-[500]'>
                         Not Verified
 
-                        <svg onClick={props.verifyAUser} xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="32px" className='fill-green-600 hover:cursor-pointer hover:fill-green-400'><path d="M702-480 560-622l57-56 85 85 170-170 56 57-226 226Zm-342 0q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM40-160v-112q0-34 17.5-62.5T104-378q62-31 126-46.5T360-440q66 0 130 15.5T616-378q29 15 46.5 43.5T680-272v112H40Z" /></svg>
+                        <svg onClick={props.updateVerification} xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="32px" className='fill-green-600 hover:cursor-pointer hover:fill-green-400'><path d="M702-480 560-622l57-56 85 85 170-170 56 57-226 226Zm-342 0q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM40-160v-112q0-34 17.5-62.5T104-378q62-31 126-46.5T360-440q66 0 130 15.5T616-378q29 15 46.5 43.5T680-272v112H40Z" /></svg>
 
                     </p>
                     :
                     <p className='w-[30%] md:w-[15%] flex flex-row flex-nowrap justify-between items-center text-green-700 text-[0.9em] font-[500]'>
                         Verified
 
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="32px" className='fill-red-500'><path d="m696-440-56-56 83-84-83-83 56-57 84 84 83-84 57 57-84 83 84 84-57 56-83-83-84 83Zm-336-40q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM40-160v-112q0-34 17.5-62.5T104-378q62-31 126-46.5T360-440q66 0 130 15.5T616-378q29 15 46.5 43.5T680-272v112H40Z" /></svg>
+                        <svg onClick={props.updateVerification} xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="32px" className='fill-red-500 hover:cursor-pointer hover:fill-red-400'><path d="m696-440-56-56 83-84-83-83 56-57 84 84 83-84 57 57-84 83 84 84-57 56-83-83-84 83Zm-336-40q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM40-160v-112q0-34 17.5-62.5T104-378q62-31 126-46.5T360-440q66 0 130 15.5T616-378q29 15 46.5 43.5T680-272v112H40Z" /></svg>
 
                     </p>
             }
