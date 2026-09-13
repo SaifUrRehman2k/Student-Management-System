@@ -5,6 +5,7 @@ import loaderReducer from './loaderSlice.js'
 import studentsReducer from './studentsSlice.js'
 import modalReducer from './modalSlice.js'
 import teachersReducer from './teachersSlice.js'
+import creatUserReducer from './createUserSlice.js'
 
 export const store = configureStore({
     reducer: {
@@ -13,6 +14,7 @@ export const store = configureStore({
         loader: loaderReducer,
         studentsData: studentsReducer,
         modal: modalReducer,
-        teachersData: teachersReducer
+        teachersData: teachersReducer,
+        createUser: creatUserReducer
     },
 });

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { ButtonGroup } from '../Button'
 import { useDispatch } from 'react-redux'
 import { hideModal } from '../../redux/modalSlice'
+import { getNewUser } from '../../redux/createUserSlice'
 
 
 
@@ -29,7 +30,7 @@ export const DeleteModal = ({ item }) => {
                 </small>
             </p>
 
-            <ButtonGroup btn1Class={'bg-red-500 text-gray-100'} btn2Class={'border-[2px] border-red-500 text-gray-800'} title1='Edit' title2='Close' btn2Fucntiion={() => dispatch(hideModal())} />
+            <ButtonGroup btn1Class={'bg-red-500 text-gray-100'} btn2Class={'border-[2px] border-red-500 text-gray-800'} title1='Delete' title2='Close' btn2Fucntiion={() => dispatch(hideModal())} />
         </>
     )
 }
@@ -87,7 +88,43 @@ export const ProfileModal = ({ user }) => {
         </>
     )
 }
+export const CreateModal = ({ user }) => {
+    const dispatch = useDispatch()
 
+
+    return (
+        <>
+            <h1 className="text-[2em] font-bold">Create new user.</h1>
+
+            <div className="flex flex-row items-center w-full justify-between">
+
+
+                <div className="flex flex-col flex-wrap items-start w-full">
+                    <div className="w-full  flex flex-row flex-nowrap justify-between items-center border-b border-gray-300 py-2">
+                        <h4 className="text-[1em] font-medium">First Name</h4>
+                        <input className="text-[1.2em] px-1 border-2 border-gray-700 disabled:border-gray-500 disabled:border rounded-sm  text-gray-900 disabled:text-gray-600 disabled:font-normal font-medium" />
+                    </div>
+                    <div className="w-full flex flex-row flex-nowrap justify-between items-center border-b border-gray-300 py-2">
+                        <h4 className="text-[1em] font-medium">Last Name</h4>
+                        <input className="text-[1.2em] px-1 border-2 border-gray-700 disabled:border-gray-500 disabled:border rounded-sm  text-gray-900 disabled:text-gray-600 disabled:font-normal font-medium" />
+                    </div>
+                    <div className="w-full  flex flex-row flex-nowrap justify-between items-center border-b border-gray-300 py-2">
+                        <h4 className="text-[1em] font-medium">Email</h4>
+                        <input type='email' className="text-[1.2em] px-1 border-2 border-gray-700 disabled:border-gray-500 disabled:border rounded-sm  text-gray-900 disabled:text-gray-600 disabled:font-normal font-medium"  />
+                    </div>
+                    <div className="w-full flex flex-row flex-nowrap justify-between items-center border-b border-gray-300 py-2">
+                        <h4 className="text-[1em] font-medium">Password</h4>
+                        <input type='password' className="text-[1.2em] px-1 border-2 border-gray-700 disabled:border-gray-500 disabled:border rounded-sm text-gray-900 disabled:text-gray-600 disabled:font-normal font-medium" />
+                    </div>
+
+                </div>
+            </div>
+            
+
+            <ButtonGroup btn1Class={'bg-blue-500 text-gray-100'} btn2Class={'border-[2px] border-blue-500 text-gray-800'} title1={'Create'} title2='Close'  btn2Fucntiion={() => dispatch(hideModal())} />
+        </>
+    )
+}
 
 export const DenialModal = () => {
     return (

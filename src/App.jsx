@@ -18,7 +18,7 @@ import AdminDashBoard from "./Pages/AdminDashboard/Dashboard";
 import Students from "./Pages/AdminDashboard/Students";
 import Teachers from "./Pages/AdminDashboard/Teachers";
 import Courses from "./Pages/AdminDashboard/Courses"
-import Modal, { DeleteModal, DenialModal, ProfileModal } from "./Components/Modals";
+import Modal, { DeleteModal, DenialModal, ProfileModal, CreateModal } from "./Components/Modals";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth, db } from "./firebase";
 import UserInfo from "./Components/UserInfo";
@@ -67,7 +67,7 @@ export default function App() {
         if (currentUser) {
           setUser(currentUser)
           checkRole(currentUser.role)
-          
+
         } else {
           const userDoc = await getDoc(doc(db, "users", user.uid));
 
@@ -106,10 +106,11 @@ export default function App() {
       {
         showModal && modalName === 'deleteModal' && (
           <Modal>
-            <DeleteModal user={user} />
+            <DeleteModal />
           </Modal>
         )
       }
+
       {
         showModal && modalName === 'profileModal' && (
           <Modal>
@@ -120,11 +121,17 @@ export default function App() {
       {
         showModal && modalName === 'denialModal' && (
           <Modal>
-            <DenialModal/>
+            <DenialModal />
           </Modal>
         )
       }
-
+      {
+        showModal && modalName === 'createModal' && (
+          <Modal>
+            <CreateModal />
+          </Modal>
+        )
+      }
 
 
 
@@ -137,7 +144,7 @@ export default function App() {
         <Route path="/admin" element={<AdminPortal currentUser={currentUser} />}>
           <Route path="" element={<AdminDashBoard />} />
           <Route path="students" element={<Students />} />
-          <Route path="user/:uid" element={<UserInfo/>} />
+          <Route path="user/:uid" element={<UserInfo />} />
           <Route path="teachers" element={<Teachers />} />
           <Route path="courses" element={<Courses />} />
         </Route>
