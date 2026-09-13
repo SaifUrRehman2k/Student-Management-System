@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import { auth, db } from '../../../firebase'
-import { collection, doc, getDoc, getDocs, runTransaction, setDoc } from 'firebase/firestore'
+import { addDoc, collection, doc, getDoc, getDocs, runTransaction, setDoc } from 'firebase/firestore'
 import Spinner from '../../../Components/Spinner'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllStudents } from '../../../redux/studentsSlice'
@@ -46,17 +46,17 @@ const Students = () => {
   // To create user from admin page
   //This requires Input and few more logics to accomplish
 
-  const createUser = async (uid, firstname, lastname, role, password, email) => {
+  const createUser = async (firstname, lastname, role, password, email) => {
     const docData = {
       first_name: firstname,
       last_name: lastname,
       role: role,
       password: password,
-      email: email,
-      uid: uid
+      email: email
     };
 
-    await setDoc(doc(db, "users", uid), docData);
+    // await setDoc(doc(db, "users"), docData);
+    await addDoc(collection(db, 'users'), docData);
   }
 
   const signupUser = async (email, password) => {
@@ -68,26 +68,24 @@ const Students = () => {
 
   const handleSubmit = async (e, email, password, firstname, lastname, role) => {
     e.preventDefault();
-    const status = await validatePassword(auth, password)
-    if (!status.isValid) {
-      dispatch(createToast("Password doesn't match our policy"))
-    }
+    // const status = await validatePassword(auth, password)
+    // if (!status.isValid) {
+    //   dispatch(createToast("Password doesn't match our policy"))
+    // }
 
     try {
       dispatch(startLoading())
-      const user = await signupUser(email, password);
-      const uid = user.uid;
 
       try {
-        await createUser(uid, firstname, lastname, role, password, email);
+        await createUser(firstname, lastname, role, password, email);
         dispatch(createToast('Account Created successfully'));
         console.log('User saved successfully');
         dispatch(stopLoading())
       } catch (dbError) {
-        await user.delete();
+        // await user.delete();
         console.error('Firestore error, user deleted:', dbError);
         dispatch(stopLoading())
-        // dispatch(createToast(dbError));
+        dispatch(createToast('Error, User is not created'));
       }
 
     } catch (error) {
@@ -99,6 +97,7 @@ const Students = () => {
         dispatch(createToast(errorMsg));
       } else {
         console.log(`Unexpected error: ${error}`);
+        dispatch(createToast('Error, User is not created'));
       }
     }
 
@@ -118,8 +117,8 @@ const Students = () => {
           return;
         }
 
-        const userVerificationStatus= userDoc.data().verified
-        transaction.update(userRef, { verified : !userVerificationStatus})
+        const userVerificationStatus = userDoc.data().verified
+        transaction.update(userRef, { verified: !userVerificationStatus })
         console.log(userRef, userDoc);
         setupdateState(++updatestate)
         dispatch(createToast('User status updated Successfully!'))
@@ -171,11 +170,13 @@ const Students = () => {
             <Link>Recent</Link>
           </h2>
 
-          <h2 onClick={(e) => {
-            handleSubmit(e, 'fake@gmail.com', 'P@ssw0rd22', 'Fon', 'Fake', 'student')
-          }} className={`text-gray-800 text-2xl ${displayUsers === 'recent' ? 'underline' : undefined}`}>
-            <Link>Add User</Link>
-          </h2>
+          <div className='flex-2 flex flex-row justify-end'>
+            <button onClick={(e) => {
+              dispatch(showModal('createModal'))
+            }} className={`text-gray-800 text-[1em] border-2 border-blue-800 p-2 rounded-4xl hover:bg-blue-500 hover:cursor-pointer hover:text-gray-100 ${displayUsers === 'recent' ? 'underline' : undefined}`}>
+              + Add user
+            </button>
+          </div>
         </div>
 
 
